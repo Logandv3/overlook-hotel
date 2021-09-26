@@ -7,8 +7,37 @@
   <title>Webpack Starter Kit</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
-  
+  <header>
+    <h1>Overlook Hotel</h1>
+  </header>
+  <div class="user-info">
+    <h3>Welcome User</h3>
+    <h3>Total Spent: </h3>
+  </div>
+  <main>
+    <nav>
+      <input type="date" name="checkin-date" value="" min="" max="" id="checkinDate">
+      <input type="date" name="checkout-date" value="" min="" max="" id="checkoutDate">
+      <form class="" action="index.html" method="post">
+        <label for="room-type">Room Type</label>
+        <select class="room-type" name="room-type" id="roomType">
+          <option value="test-room-type" id="testRoomType">Room Type Test</option>
+        </select>
+      </form>
+      <button type="submit" name="submit-search">Search Available Rooms</button>
+    </nav>
+    <h2 id="roomDisplayHeading">Upcoming Stays</h2>
+    <article class="room-display-area" id="roomDisplayArea">
+      <div class="grid-container" id="gridContainer">
+        <h2 class="no-results-msg hidden" id="noResultsMsg">Sorry there are no available rooms that match the search criteria</h2>
+        <section class="grid-item" id="indRoomTest">
+          <p>Sept.24 - Sept.25</p>
+        </section>
+      </div>
+    </article>
+  </main>
+
+
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
 
