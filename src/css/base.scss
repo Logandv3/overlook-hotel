@@ -1,6 +1,21 @@
 /* This is an example of how to import a partial scss file*/
 @import '_variables';
 
+* {
+  background-color: black;
+  border: 2px solid white;
+}
+
 body {
   background: $primary-background;
+}
+
+button {
+  height: 200px;
+  width: 200px;
+  background-color: black;
+}
+
+.hidden {
+  display: none;
 }
