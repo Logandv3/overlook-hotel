@@ -7,13 +7,29 @@
 }
 
 body {
-  background: $primary-background;
+  // background: $primary-background;
 }
 
 button {
   height: 200px;
   width: 200px;
   background-color: black;
+}
+
+
+.grid-container {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 1em;
+}
+
+// .grid-item {
+//
+// }
+
+.room-display-area {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .hidden {

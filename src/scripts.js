@@ -46,5 +46,6 @@ function initializeData(data) {
   let roomInfo = data[1];
   let bookingInfo = data[2];
   let customer = new Customer(customerInfo, bookingInfo, roomInfo);
-  console.log(customer);
-}
+  domUpdates.populateUserInfo(customer);
+  domUpdates.populateUpcomingStays(customer);
+};
