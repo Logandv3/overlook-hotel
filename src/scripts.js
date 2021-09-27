@@ -60,6 +60,15 @@ function initializeData(data) {
   domUpdates.populateRoomTypeDropDwn(roomInfo);
 };
 
+function createRooms(roomsToCreate) {
+  let instantiatedRooms = roomsToCreate.map((room) => {
+    let createdRoom = new Room(room);
+    return createdRoom;
+  });
+
+    domUpdates.populateFilteredRooms(instantiatedRooms, gridContainer);
+};
+
 function filterAvailableRooms() {
   // This fcn will look at the info the user has entered and find which rooms
   // are available.  It will invoke another fcn that will display those rooms.
@@ -73,20 +82,32 @@ function filterAvailableRooms() {
   if (!checkinDate.value || !checkoutDate.value) {
     domUpdates.show(dateError);
     return
-  }
+  };
 
   let allRoomInfo = separatedData[1];
   let allBookingInfo = separatedData[2];
+  let roomNumbersAdded = [];
   let availableRooms = allRoomInfo.rooms.reduce((arr, room) => {
     allBookingInfo.bookings.forEach((booking) => {
       let parsedBookingDate = booking.date.replace(/\D/g, '');
       let parsedCheckinDate = checkinDate.value.replace(/\D/g, '');
-      if (booking.roomNumber === room.number && parsedCheckinDate !== parsedBookingDate) {
+      roomNumbersAdded;
+      if (!roomNumbersAdded.includes(room.number) && booking.roomNumber === room.number && parsedCheckinDate !== parsedBookingDate) {
         arr.push(room);
-      }
+        roomNumbersAdded.push(room.number);
+      };
     });
     return arr;
   }, []);
 
-  console.log(availableRooms);
+  let identifier = 'filter';
+
+  if (roomType.value !== 'All') {
+    let filteredByType = availableRooms.filter((room) => room.roomType === roomType.value);
+    createRooms(filteredByType);
+    // domUpdates.populateFilteredRooms(filteredByType);
+
+  } else if (roomType.value === 'All') {
+    // domUpdates.populateFilteredRooms(availableRooms);
+  };
 };

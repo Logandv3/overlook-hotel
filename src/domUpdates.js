@@ -32,6 +32,23 @@ let domUpdates = {
     });
   },
 
+  populateFilteredRooms(roomsToDisplay, gridContainer) {
+    gridContainer.innerHTML = '';
+
+    roomsToDisplay.forEach((room) => {
+      gridContainer.innerHTML += `
+      <section class="grid-item" id="${room.number}">
+        <p>${room.number}</p>
+        <p>${room.roomType}</p>
+        <p>Has bidet: ${room.bidet}</p>
+        <p>Bed Size: ${room.bedSize}</p>
+        <p>Number of Beds: ${room.numBeds}</p>
+        <p>Cost Per Night: ${room.costPerNight}</p>
+      </section>
+      `;
+    });
+  },
+
   show(element) {
     element.classList.remove('hidden');
   },
