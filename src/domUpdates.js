@@ -15,6 +15,21 @@ let domUpdates = {
         </section>
       `;
     })
+  },
+
+  populateRoomTypeDropDwn(roomInfo) {
+    let filteredRoomTypes = roomInfo.rooms.reduce((arr, room) => {
+      if (!arr.includes(room.roomType)) {
+        arr.push(room.roomType);
+      }
+      return arr;
+    }, []);
+
+    filteredRoomTypes.forEach((type) => {
+      roomType.innerHTML += `
+      <option value="${type}" id="${type}">${type}</option>
+      `;
+    });
   }
 };
 

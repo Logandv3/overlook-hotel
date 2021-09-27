@@ -49,4 +49,5 @@ function initializeData(data) {
   let customer = new Customer(customerInfo, bookingInfo, roomInfo);
   domUpdates.populateUserInfo(customer);
   domUpdates.populateUpcomingStays(customer);
+  domUpdates.populateRoomTypeDropDwn(roomInfo);
 };
