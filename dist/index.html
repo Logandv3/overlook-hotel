@@ -9,7 +9,7 @@
 <body>
   <div class="user-info">
     <h3 id="userWelcome">Welcome User</h3>
-    <h3 id="userTotalSpent">Total Spent: </h3>
+    <h3 id="userTotalSpent">Total Spent: 0</h3>
   </div>
   <header>
   <h1>Overlook Hotel</h1>
@@ -17,18 +17,19 @@
   <main>
     <nav>
       <div class="all-search-options">
+        <p class="error-msg-date hidden" id="dateError">Please Select a Check-in & Check-out Date</p>
         <input class="search-option" type="date" name="checkin-date" value="" min="2020/01/01" max="" id="checkinDate">
         <input class="search-option" type="date" name="checkout-date" value="" min="2020/01/01" max="" id="checkoutDate">
-          <form class="search-option" action="index.html" method="post">
+          <form class="search-option" action="index.html" method="post" id="roomTypeForm">
             <div class="room-type-dropdown">
               <label for="room-type">Room Type</label>
               <select class="room-type" name="room-type" id="roomType">
-                <option value="test-room-type" id="testRoomType">All</option>
+                <option value="all-room-types" id="all">All</option>
               </select>
             </div>
           </form>
       </div>
-        <button class="search-option" type="submit" name="submit-search" id="searchAvailableRooms">Search Available Rooms</button>
+        <button class="search-option" type="submit" name="submit-search" id="searchRoomsBtn">Search Available Rooms</button>
     </div>
     </nav>
     <h2 id="roomDisplayHeading">Upcoming Stays</h2>

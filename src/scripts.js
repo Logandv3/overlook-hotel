@@ -12,17 +12,23 @@ import domUpdates from './domUpdates';
 
 const userWelcome = document.getElementById('userWelcome');
 const userTotalSpent = document.getElementById('userTotalSpent');
+const dateError = document.getElementById('dateError');
 const checkinDate = document.getElementById('checkinDate');
 const checkoutDate = document.getElementById('checkoutDate');
+const roomTypeForm = document.getElementById('roomTypeForm');
 const roomType = document.getElementById('roomType');
-const searchAvailableRooms = document.getElementById('searchAvailableRooms');
+const searchRoomsBtn = document.getElementById('searchRoomsBtn');
 
 const roomDisplayHeading = document.getElementById('roomDisplayHeading');
 const roomDisplayArea = document.getElementById('roomDisplayArea');
 const noResultsMsg = document.getElementById('noResultsMsg');
 
+let separatedData;
+
 
 window.addEventListener('load', getData);
+searchRoomsBtn.addEventListener('click', filterAvailableRooms);
+// roomType.addEventListener('click', getRoomTypeValue);
 
 function getData() {
   gatherData();
@@ -46,8 +52,41 @@ function initializeData(data) {
   let customerInfo = data[0];
   let roomInfo = data[1];
   let bookingInfo = data[2];
+  separatedData = [customerInfo, roomInfo, bookingInfo];
+
   let customer = new Customer(customerInfo, bookingInfo, roomInfo);
   domUpdates.populateUserInfo(customer);
   domUpdates.populateUpcomingStays(customer);
   domUpdates.populateRoomTypeDropDwn(roomInfo);
+};
+
+function filterAvailableRooms() {
+  // This fcn will look at the info the user has entered and find which rooms
+  // are available.  It will invoke another fcn that will display those rooms.
+
+  // input: checkinDate(date as string), checkoutDate(date as string),
+  //        roomType(string)
+
+  // output: array with available rooms(objects)
+  //         invoke fcn to show rooms.
+
+  if (!checkinDate.value || !checkoutDate.value) {
+    domUpdates.show(dateError);
+    return
+  }
+
+  let allRoomInfo = separatedData[1];
+  let allBookingInfo = separatedData[2];
+  let availableRooms = allRoomInfo.rooms.reduce((arr, room) => {
+    allBookingInfo.bookings.forEach((booking) => {
+      let parsedBookingDate = booking.date.replace(/\D/g, '');
+      let parsedCheckinDate = checkinDate.value.replace(/\D/g, '');
+      if (booking.roomNumber === room.number && parsedCheckinDate !== parsedBookingDate) {
+        arr.push(room);
+      }
+    });
+    return arr;
+  }, []);
+
+  console.log(availableRooms);
 };

@@ -30,6 +30,14 @@ let domUpdates = {
       <option value="${type}" id="${type}">${type}</option>
       `;
     });
+  },
+
+  show(element) {
+    element.classList.remove('hidden');
+  },
+
+  hide(element) {
+    element.classList.add('hidden');
   }
 };
 
