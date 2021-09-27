@@ -10,12 +10,38 @@ body {
   // background: $primary-background;
 }
 
-button {
-  height: 200px;
-  width: 200px;
-  background-color: black;
+.user-info {
+  display: flex;
+  justify-content: space-between;
 }
 
+h1 {
+  font-size: 50px;
+}
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.all-search-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-option {
+  margin: 5px 20px 5px 20px;
+}
+
+.room-type-dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-display-area {
+  display: flex;
+  justify-content: space-evenly;
+}
 
 .grid-container {
 	display: grid;
@@ -26,11 +52,6 @@ button {
 // .grid-item {
 //
 // }
-
-.room-display-area {
-  display: flex;
-  justify-content: space-evenly;
-}
 
 .hidden {
   display: none;

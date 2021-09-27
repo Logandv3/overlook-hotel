@@ -7,31 +7,36 @@
   <title>Overlook Hotel</title>
 </head>
 <body>
-  <header>
-    <h1>Overlook Hotel</h1>
-  </header>
   <div class="user-info">
     <h3 id="userWelcome">Welcome User</h3>
     <h3 id="userTotalSpent">Total Spent: </h3>
   </div>
+  <header>
+  <h1>Overlook Hotel</h1>
+  </header>
   <main>
     <nav>
-      <input type="date" name="checkin-date" value="" min="" max="" id="checkinDate">
-      <input type="date" name="checkout-date" value="" min="" max="" id="checkoutDate">
-      <form class="" action="index.html" method="post">
-        <label for="room-type">Room Type</label>
-        <select class="room-type" name="room-type" id="roomType">
-          <option value="test-room-type" id="testRoomType">Room Type Test</option>
-        </select>
-      </form>
-      <button type="submit" name="submit-search">Search Available Rooms</button>
+      <div class="all-search-options">
+        <input class="search-option" type="date" name="checkin-date" value="" min="" max="" id="checkinDate">
+        <input class="search-option" type="date" name="checkout-date" value="" min="" max="" id="checkoutDate">
+          <form class="search-option" action="index.html" method="post">
+            <div class="room-type-dropdown">
+              <label for="room-type">Room Type</label>
+              <select class="room-type" name="room-type" id="roomType">
+                <option value="test-room-type" id="testRoomType">All</option>
+              </select>
+            </div>
+          </form>
+      </div>
+        <button class="search-option" type="submit" name="submit-search" id="searchAvailableRooms">Search Available Rooms</button>
+    </div>
     </nav>
     <h2 id="roomDisplayHeading">Upcoming Stays</h2>
     <article class="room-display-area" id="roomDisplayArea">
       <h2 class="no-results-msg hidden" id="noResultsMsg">Sorry there are no available rooms that match the search criteria</h2>
       <div class="grid-container" id="gridContainer">
-          <section class="grid-item" id="indRoomTest">
-            <p>Sept.24 - Sept.25</p>
+        <section class="grid-item" id="indRoomTest">
+          <p>Sept.24 - Sept.25</p>
         </section>
       </div>
     </article>

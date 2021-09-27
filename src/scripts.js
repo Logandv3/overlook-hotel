@@ -15,6 +15,7 @@ const userTotalSpent = document.getElementById('userTotalSpent');
 const checkinDate = document.getElementById('checkinDate');
 const checkoutDate = document.getElementById('checkoutDate');
 const roomType = document.getElementById('roomType');
+const searchAvailableRooms = document.getElementById('searchAvailableRooms');
 
 const roomDisplayHeading = document.getElementById('roomDisplayHeading');
 const roomDisplayArea = document.getElementById('roomDisplayArea');
