@@ -22,6 +22,7 @@ const searchRoomsBtn = document.getElementById('searchRoomsBtn');
 const roomDisplayHeading = document.getElementById('roomDisplayHeading');
 const roomDisplayArea = document.getElementById('roomDisplayArea');
 const backToResults = document.getElementById('backToResults');
+const upcomingStaysBtn = document.getElementById('upcomingStaysBtn');
 const noResultsMsg = document.getElementById('noResultsMsg');
 const indRoom = document.getElementById('indRoom');
 
@@ -33,8 +34,9 @@ let customer;
 window.addEventListener('load', getData);
 searchRoomsBtn.addEventListener('click', filterAvailableRooms);
 gridContainer.addEventListener('click', findRoom);
-backToResults.addEventListener('click', hideIndividualRoom);
-indRoom.addEventListener('click', bookRoom)
+backToResults.addEventListener('click', hideView);
+indRoom.addEventListener('click', bookRoom);
+upcomingStaysBtn.addEventListener('click', hideView)
 
 function getData() {
   gatherData();
@@ -42,7 +44,7 @@ function getData() {
 
 export const updateData = () => {
   gatherData();
-  hideIndividualRoom();
+  hideView();
 };
 
 function gatherData() {
@@ -78,7 +80,7 @@ function createRooms(roomsToCreate) {
     return createdRoom;
   });
 
-    domUpdates.populateFilteredRooms(instantiatedRooms, gridContainer, roomDisplayHeading);
+    domUpdates.populateFilteredRooms(instantiatedRooms, gridContainer, roomDisplayHeading, upcomingStaysBtn);
     roomsOnDashboard = instantiatedRooms;
 };
 
@@ -127,7 +129,14 @@ function findRoom(event) {
   };
 };
 
-function hideIndividualRoom() {
+function hideView(event) {
+  if (event.target.id === 'upcomingStaysBtn') {
+      domUpdates.hide(backToResults);
+      domUpdates.hide(indRoom);
+      domUpdates.hide(upcomingStaysBtn);
+      domUpdates.show(gridContainer);
+      domUpdates.populateUpcomingStays(customer);
+  };
   domUpdates.hide(indRoom);
   domUpdates.show(gridContainer);
   domUpdates.hide(backToResults);

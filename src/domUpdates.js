@@ -32,7 +32,8 @@ let domUpdates = {
     });
   },
 
-  populateFilteredRooms(roomsToDisplay, gridContainer, roomDisplayHeading) {
+  populateFilteredRooms(roomsToDisplay, gridContainer, roomDisplayHeading, upcomingStaysBtn) {
+    domUpdates.show(upcomingStaysBtn);
     roomDisplayHeading.innerText = 'Available Rooms';
     gridContainer.innerHTML = '';
 
