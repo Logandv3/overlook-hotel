@@ -52,13 +52,13 @@ function getData(singleCustomer) {
   gatherData(singleCustomer);
 };
 
-export const updateData = () => {
+export const updateData = (event) => {
   let updateSignal = 1;
   gatherData(customer.id, updateSignal);
-  hideView();
+  hideView(event);
 };
 
-function gatherData(singleCustomer, updateSignal) {
+async function gatherData(singleCustomer, updateSignal) {
   let apiRoomInfo = roomPromise()
   .then(data => data)
   .catch(error => console.log(`API room error: ${error.message}`))
@@ -162,35 +162,36 @@ function findRoom(event) {
 };
 
 function hideView(event) {
-  if (event.target.id === 'upcomingStaysBtn') {
+  console.log(event.target.id)
+ if (event.target.id === 'upcomingStaysBtn') {
       domUpdates.hide(backToResults);
       domUpdates.hide(indRoom);
       domUpdates.hide(upcomingStaysBtn);
       domUpdates.show(gridContainer);
       domUpdates.populateUpcomingStays(customer);
   };
-    domUpdates.hide(indRoom);
-    domUpdates.hide(backToResults);
-    domUpdates.hide(loginContainer);
-    domUpdates.show(gridContainer);
-    domUpdates.show(userInfoContainer);
-    domUpdates.show(navigation);
-    domUpdates.show(roomDisplayHeading);
-    domUpdates.show(roomDisplayArea);
+
+  domUpdates.hide(indRoom);
+  domUpdates.hide(backToResults);
+  domUpdates.hide(loginContainer);
+  domUpdates.show(gridContainer);
+  domUpdates.show(userInfoContainer);
+  domUpdates.show(navigation);
+  domUpdates.show(roomDisplayHeading);
+  domUpdates.show(roomDisplayArea);
 };
 
-function bookRoom() {
+function bookRoom(event) {
   if (event.target.id === 'bookNow') {
     let newDate = checkinDate.value.replaceAll('-', '/')
-    let parsedRoomNumber = parseInt(event.target.name);
-    console.log(parsedRoomNumber)
-    console.log(typeof parsedRoomNumber)
+    let parsedRoomNumber = parseInt(event.target.value);
+
      let newBooking = {
        userID: customer.id,
        date: newDate,
        roomNumber: parsedRoomNumber
      }
-     bookUserStay(newBooking);
+     bookUserStay(newBooking, event);
   };
 };
 
@@ -219,8 +220,9 @@ async function collectUserInfo(customerUsername, customerPassword, event) {
 
 function verifyUser(result, customerUsername, event) {
   if (result.id === parseInt(customerUsername)) {
-    getData(result);
+    getData(result, event);
     hideView(event);
+
   } else {
     domUpdates.show(loginError2);
   }

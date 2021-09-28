@@ -20,13 +20,13 @@ export const bookingsPromise = () => {
   .then(response => response.json())
 };
 
-export const bookUserStay = (newStay) => {
+export const bookUserStay = (newStay, event) => {
   fetch('http://localhost:3001/api/v1/bookings', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newStay),
   })
   .then(response => response.json())
-  .then(stay => updateData())
-  .catch(err => console.log(`POST ERROR ${err}`))
+  .then(stay => updateData(event))
+  // .catch(err => console.log(`POST ERROR ${err}`))
 }
