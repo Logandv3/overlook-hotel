@@ -40,13 +40,13 @@ let roomsOnDashboard;
 let customer;
 
 
-// window.addEventListener('load', getData);
 searchRoomsBtn.addEventListener('click', filterAvailableRooms);
 gridContainer.addEventListener('click', findRoom);
 backToResults.addEventListener('click', hideView);
 indRoom.addEventListener('click', bookRoom);
 upcomingStaysBtn.addEventListener('click', hideView);
 loginBtn.addEventListener('click', checkLoginInfo);
+
 
 function getData(singleCustomer) {
   gatherData(singleCustomer);
@@ -58,7 +58,7 @@ export const updateData = (event) => {
   hideView(event);
 };
 
-async function gatherData(singleCustomer, updateSignal) {
+function gatherData(singleCustomer, updateSignal) {
   let apiRoomInfo = roomPromise()
   .then(data => data)
   .catch(error => console.log(`API room error: ${error.message}`))
@@ -163,12 +163,12 @@ function findRoom(event) {
 
 function hideView(event) {
   console.log(event.target.id)
- if (event.target.id === 'upcomingStaysBtn') {
-      domUpdates.hide(backToResults);
-      domUpdates.hide(indRoom);
-      domUpdates.hide(upcomingStaysBtn);
-      domUpdates.show(gridContainer);
-      domUpdates.populateUpcomingStays(customer);
+  if (event.target.id === 'upcomingStaysBtn') {
+    domUpdates.hide(backToResults);
+    domUpdates.hide(indRoom);
+    domUpdates.hide(upcomingStaysBtn);
+    domUpdates.show(gridContainer);
+    domUpdates.populateUpcomingStays(customer);
   };
 
   domUpdates.hide(indRoom);
