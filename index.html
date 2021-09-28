@@ -1,53 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Overlook Hotel</title>
-</head>
-<body>
-  <div class="user-info">
-    <h3 id="userWelcome">Welcome User</h3>
-    <h3 id="userTotalSpent">Total Spent: 0</h3>
-  </div>
-  <header>
-  <h1>Overlook Hotel</h1>
-  </header>
-  <main>
-    <nav>
-      <div class="all-search-options">
-        <p class="error-msg-date hidden" id="dateError">Please Select a Check-in & Check-out Date</p>
-        <input class="search-option" type="date" name="checkin-date" value="" min="2020/01/01" max="" id="checkinDate">
-        <input class="search-option" type="date" name="checkout-date" value="" min="2020/01/01" max="" id="checkoutDate">
-          <form class="search-option" action="index.html" method="post" id="roomTypeForm">
-            <div class="room-type-dropdown">
-              <label for="room-type">Room Type</label>
-              <select class="room-type" name="room-type" id="roomType">
-                <option value="all-room-types" id="all">All</option>
-              </select>
-            </div>
-          </form>
-      </div>
-        <button class="search-option" type="submit" name="submit-search" id="searchRoomsBtn">Search Available Rooms</button>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlook Hotel</title>
+  </head>
+  <body>
+    <div class="user-info">
+      <h3 id="userWelcome">Welcome User</h3>
+      <h3 id="userTotalSpent">Total Spent: 0</h3>
     </div>
-    </nav>
-    <h2 id="roomDisplayHeading">Upcoming Stays</h2>
-    <article class="room-display-area" id="roomDisplayArea">
-      <h2 class="no-results-msg hidden" id="noResultsMsg">Sorry there are no available rooms that match the search criteria</h2>
-      <button class="back-to-results hidden" type="button" name="back-to-results" id="backToResults">Back to Results</button>
-      <div class="grid-container" id="gridContainer">
-        <section class="grid-item" id="indRoomTest">
-        </section>
+    <header>
+    <h1>Overlook Hotel</h1>
+    </header>
+    <main>
+      <nav>
+        <div class="all-search-options">
+          <p class="error-msg-date hidden" id="dateError">Please Select a Check-in & Check-out Date</p>
+            <div class="date-entry">
+              <label for="checkin-date">Check-in Date</label>
+              <input class="search-option" type="date" name="checkin-date" value="" min="2020/01/01" max="" id="checkinDate" aria-label="check-in date">
+            </div>
+            <div class="date-entry">
+              <label for="checkout-date">Check-out Date</label>
+              <input class="search-option" type="date" name="checkout-date" value="" min="2020/01/01" max="" id="checkoutDate" aria-label="check-out date">
+            </div>
+            <form class="search-option" action="index.html" method="post" id="roomTypeForm">
+              <div class="room-type-dropdown">
+                <label for="room-type">Room Type</label>
+                <select class="room-type" name="room-type" id="roomType">
+                  <option value="all-room-types" id="all">All</option>
+                </select>
+              </div>
+            </form>
+        </div>
+          <button class="search-option" type="submit" name="submit-search" id="searchRoomsBtn">Search Available Rooms</button>
       </div>
-        <section class="individual-room hidden" id="indRoom">
-        </section>
-    </article>
-  </main>
+      </nav>
+      <h2 id="roomDisplayHeading">Upcoming Stays</h2>
+      <article class="room-display-area" id="roomDisplayArea">
+        <h2 class="no-results-msg hidden" id="noResultsMsg">Sorry there are no available rooms that match the search criteria</h2>
+        <button class="back-to-results hidden" type="button" name="back-to-results" id="backToResults">Back to Results</button>
+        <div class="grid-container" id="gridContainer">
+          <section class="grid-item" id="indRoomTest">
+          </section>
+        </div>
+          <section class="individual-room hidden" id="indRoom">
+          </section>
+      </article>
+    </main>
 
 
-  <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
-  <script src="bundle.js"></script>
+    <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
+    <script src="bundle.js"></script>
 
-</body>
+  </body>
 </html>
