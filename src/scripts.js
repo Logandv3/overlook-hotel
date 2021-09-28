@@ -10,6 +10,12 @@ import Room from './classes/Rooms';
 import { allCustomersPromise, singleCustomerPromise, roomPromise, bookingsPromise, bookUserStay } from './apiCalls';
 import domUpdates from './domUpdates';
 
+const loginContainer = document.getElementById('loginContainer');
+const username = document.getElementById('username');
+const password = document.getElementById('password');
+const loginBtn = document.getElementById('loginBtn');
+const navigation = document.getElementById('navigation');
+
 const userWelcome = document.getElementById('userWelcome');
 const userTotalSpent = document.getElementById('userTotalSpent');
 const dateError = document.getElementById('dateError');

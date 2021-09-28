@@ -7,8 +7,51 @@
   color: white;
 }
 
+html {
+  height: 100%;
+}
+
 body {
-  // background: $primary-background;
+  height: 100%;
+}
+
+main {
+  height: 100%;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height:80%;
+  width: 100%;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 80%;
+  width: 80%;
+}
+
+.login-input-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+
+.login-info {
+  margin: 1em;
+  width: 60%;
+}
+
+.login-button {
+  width: 30%;
+  height: 10%;
 }
 
 .user-info {
