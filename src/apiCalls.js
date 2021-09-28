@@ -5,8 +5,8 @@ export const allCustomersPromise = () => {
   .then(response => response.json())
 };
 
-export const singleCustomerPromise = () => {
-  return fetch(`http://localhost:3001/api/v1/customers/1`)
+export const singleCustomerPromise = (customerUsername) => {
+  return fetch(`http://localhost:3001/api/v1/customers/${customerUsername}`)
   .then(response => response.json())
 };
 

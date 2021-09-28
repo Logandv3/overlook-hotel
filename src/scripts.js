@@ -15,7 +15,10 @@ const username = document.getElementById('username');
 const password = document.getElementById('password');
 const loginBtn = document.getElementById('loginBtn');
 const navigation = document.getElementById('navigation');
+const loginError = document.getElementById('loginError');
+const loginError2 = document.getElementById('loginError2');
 
+const userInfoContainer = document.getElementById('userInfoContainer');
 const userWelcome = document.getElementById('userWelcome');
 const userTotalSpent = document.getElementById('userTotalSpent');
 const dateError = document.getElementById('dateError');
@@ -37,40 +40,63 @@ let roomsOnDashboard;
 let customer;
 
 
-window.addEventListener('load', getData);
+// window.addEventListener('load', getData);
 searchRoomsBtn.addEventListener('click', filterAvailableRooms);
 gridContainer.addEventListener('click', findRoom);
 backToResults.addEventListener('click', hideView);
 indRoom.addEventListener('click', bookRoom);
-upcomingStaysBtn.addEventListener('click', hideView)
+upcomingStaysBtn.addEventListener('click', hideView);
+loginBtn.addEventListener('click', checkLoginInfo);
 
-function getData() {
-  gatherData();
+function getData(singleCustomer) {
+  gatherData(singleCustomer);
 };
 
 export const updateData = () => {
-  gatherData();
+  let updateSignal = 1;
+  gatherData(customer.id, updateSignal);
   hideView();
 };
 
-function gatherData() {
-  let apiCustomerInfo = singleCustomerPromise()
-  .then(data => data)
-  .catch(error => console.log(`API customer error: ${error.message}`))
+function gatherData(singleCustomer, updateSignal) {
   let apiRoomInfo = roomPromise()
   .then(data => data)
   .catch(error => console.log(`API room error: ${error.message}`))
   let apiBookingInfo = bookingsPromise()
   .then(data => data)
   .catch(error => console.log(`API bookings error: ${error.message}`))
-  Promise.all([apiCustomerInfo, apiRoomInfo, apiBookingInfo])
-  .then(data => initializeData(data))
+
+  if (!updateSignal) {
+    let apiCustomerInfo = singleCustomer;
+    Promise.all([apiRoomInfo, apiBookingInfo])
+    .then(data => organizeData(data, apiCustomerInfo))
+
+  } else {
+    let apiCustomerInfo = singleCustomerPromise(singleCustomer)
+    .then(data => data)
+    .catch(error => console.log(`API customer error: ${error.message}`))
+    Promise.all([apiCustomerInfo, apiRoomInfo, apiBookingInfo])
+    .then(data => organizeData(data))
+  };
 };
 
-function initializeData(data) {
-  let customerInfo = data[0];
-  let roomInfo = data[1];
-  let bookingInfo = data[2];
+function organizeData(data, apiCustomerInfo) {
+  if (!apiCustomerInfo) {
+    let customerInfo = data[0];
+    let roomInfo = data[1];
+    let bookingInfo = data[2];
+
+    initializeData(customerInfo, roomInfo, bookingInfo);
+  } else if (apiCustomerInfo) {
+    let customerInfo = apiCustomerInfo;
+    let roomInfo = data[0];
+    let bookingInfo = data[1];
+
+    initializeData(customerInfo, roomInfo, bookingInfo);
+  };
+};
+
+function initializeData(customerInfo, roomInfo, bookingInfo) {
   separatedData = [customerInfo, roomInfo, bookingInfo];
 
   customer = new Customer(customerInfo, bookingInfo, roomInfo);
@@ -143,22 +169,59 @@ function hideView(event) {
       domUpdates.show(gridContainer);
       domUpdates.populateUpcomingStays(customer);
   };
-  domUpdates.hide(indRoom);
-  domUpdates.show(gridContainer);
-  domUpdates.hide(backToResults);
+    domUpdates.hide(indRoom);
+    domUpdates.hide(backToResults);
+    domUpdates.hide(loginContainer);
+    domUpdates.show(gridContainer);
+    domUpdates.show(userInfoContainer);
+    domUpdates.show(navigation);
+    domUpdates.show(roomDisplayHeading);
+    domUpdates.show(roomDisplayArea);
 };
 
 function bookRoom() {
   if (event.target.id === 'bookNow') {
     let newDate = checkinDate.value.replaceAll('-', '/')
-    console.log('id', customer.id);
-    console.log('date', newDate);
-    console.log('number', event.target.name);
+    let parsedRoomNumber = parseInt(event.target.name);
+    console.log(parsedRoomNumber)
+    console.log(typeof parsedRoomNumber)
      let newBooking = {
        userID: customer.id,
        date: newDate,
-       roomNumber: parseInt(event.target.name)
+       roomNumber: parsedRoomNumber
      }
      bookUserStay(newBooking);
   };
+};
+
+function checkLoginInfo(event) {
+  if (username.value && password.value) {
+    event.preventDefault();
+    collectUserInfo(username.value, password.value, event);
+
+  } else if (!username.value || !password.value) {
+    event.preventDefault();
+    domUpdates.show(loginError);
+  };
+};
+
+async function collectUserInfo(customerUsername, customerPassword, event) {
+  if (customerPassword !== 'overlook2021') {
+    domUpdates.show(loginError2);
+  } else if (customerPassword === 'overlook2021') {
+      customerUsername = customerUsername.replace(/\D/g, '');
+      let custPromise = singleCustomerPromise(customerUsername);
+      let result = await custPromise;
+
+      verifyUser(result, customerUsername, event);
+  };
+};
+
+function verifyUser(result, customerUsername, event) {
+  if (result.id === parseInt(customerUsername)) {
+    getData(result);
+    hideView(event);
+  } else {
+    domUpdates.show(loginError2);
+  }
 };
