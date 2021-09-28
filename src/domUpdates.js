@@ -32,20 +32,43 @@ let domUpdates = {
     });
   },
 
-  populateFilteredRooms(roomsToDisplay, gridContainer) {
+  populateFilteredRooms(roomsToDisplay, gridContainer, roomDisplayHeading) {
+    roomDisplayHeading.innerText = 'Available Rooms';
     gridContainer.innerHTML = '';
 
     roomsToDisplay.forEach((room) => {
       gridContainer.innerHTML += `
       <section class="grid-item" id="${room.number}">
-        <p>${room.number}</p>
-        <p>${room.roomType}</p>
+        <p>Room Number: ${room.number}</p>
+        <p>Room Type: ${room.roomType}</p>
         <p>Has bidet: ${room.bidet}</p>
         <p>Bed Size: ${room.bedSize}</p>
         <p>Number of Beds: ${room.numBeds}</p>
         <p>Cost Per Night: ${room.costPerNight}</p>
       </section>
       `;
+    });
+  },
+
+  populateIndividualRoom(roomId, gridContainer, indRoom, roomsOnDashboard, backToResults) {
+    domUpdates.hide(gridContainer);
+    domUpdates.show(indRoom);
+    domUpdates.show(backToResults);
+    indRoom.innerHTML = ``;
+
+    roomsOnDashboard.forEach((room) => {
+      if (room.number === parseInt(roomId)) {
+        indRoom.innerHTML += `
+        <h3>${room.roomType} ${room.number}</h3>
+        <div>
+          <p>Has bidet: ${room.bidet}</p>
+          <p>Bed Size: ${room.bedSize}</p>
+          <p>Number of Beds: ${room.numBeds}</p>
+          <p>Cost Per Night: ${room.costPerNight}</p>
+          <button type="button" name="${room.number}" id="bookNow">Book Now</button>
+        </div>
+        `;
+      };
     });
   },
 

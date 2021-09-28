@@ -7,7 +7,7 @@ import './css/base.scss';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import Customer from './classes/Customer';
 import Room from './classes/Rooms';
-import { allCustomersPromise, singleCustomerPromise, roomPromise, bookingsPromise } from './apiCalls';
+import { allCustomersPromise, singleCustomerPromise, roomPromise, bookingsPromise, bookUserStay } from './apiCalls';
 import domUpdates from './domUpdates';
 
 const userWelcome = document.getElementById('userWelcome');
@@ -21,17 +21,28 @@ const searchRoomsBtn = document.getElementById('searchRoomsBtn');
 
 const roomDisplayHeading = document.getElementById('roomDisplayHeading');
 const roomDisplayArea = document.getElementById('roomDisplayArea');
+const backToResults = document.getElementById('backToResults');
 const noResultsMsg = document.getElementById('noResultsMsg');
+const indRoom = document.getElementById('indRoom');
 
 let separatedData;
+let roomsOnDashboard;
+let customer;
 
 
 window.addEventListener('load', getData);
 searchRoomsBtn.addEventListener('click', filterAvailableRooms);
-// roomType.addEventListener('click', getRoomTypeValue);
+gridContainer.addEventListener('click', findRoom);
+backToResults.addEventListener('click', hideIndividualRoom);
+indRoom.addEventListener('click', bookRoom)
 
 function getData() {
   gatherData();
+};
+
+export const updateData = () => {
+  gatherData();
+  hideIndividualRoom();
 };
 
 function gatherData() {
@@ -54,7 +65,8 @@ function initializeData(data) {
   let bookingInfo = data[2];
   separatedData = [customerInfo, roomInfo, bookingInfo];
 
-  let customer = new Customer(customerInfo, bookingInfo, roomInfo);
+  customer = new Customer(customerInfo, bookingInfo, roomInfo);
+
   domUpdates.populateUserInfo(customer);
   domUpdates.populateUpcomingStays(customer);
   domUpdates.populateRoomTypeDropDwn(roomInfo);
@@ -66,20 +78,12 @@ function createRooms(roomsToCreate) {
     return createdRoom;
   });
 
-    domUpdates.populateFilteredRooms(instantiatedRooms, gridContainer);
+    domUpdates.populateFilteredRooms(instantiatedRooms, gridContainer, roomDisplayHeading);
+    roomsOnDashboard = instantiatedRooms;
 };
 
 function filterAvailableRooms() {
-  // This fcn will look at the info the user has entered and find which rooms
-  // are available.  It will invoke another fcn that will display those rooms.
-
-  // input: checkinDate(date as string), checkoutDate(date as string),
-  //        roomType(string)
-
-  // output: array with available rooms(objects)
-  //         invoke fcn to show rooms.
-
-  if (!checkinDate.value || !checkoutDate.value) {
+if (!checkinDate.value || !checkoutDate.value) {
     domUpdates.show(dateError);
     return
   };
@@ -87,6 +91,7 @@ function filterAvailableRooms() {
   let allRoomInfo = separatedData[1];
   let allBookingInfo = separatedData[2];
   let roomNumbersAdded = [];
+
   let availableRooms = allRoomInfo.rooms.reduce((arr, room) => {
     allBookingInfo.bookings.forEach((booking) => {
       let parsedBookingDate = booking.date.replace(/\D/g, '');
@@ -100,14 +105,39 @@ function filterAvailableRooms() {
     return arr;
   }, []);
 
-  let identifier = 'filter';
-
   if (roomType.value !== 'All') {
     let filteredByType = availableRooms.filter((room) => room.roomType === roomType.value);
     createRooms(filteredByType);
-    // domUpdates.populateFilteredRooms(filteredByType);
 
   } else if (roomType.value === 'All') {
-    // domUpdates.populateFilteredRooms(availableRooms);
+    createRooms(availableRooms);
+  };
+};
+
+function findRoom(event) {
+  if (event.target.id !== 'gridContainer') {
+    let roomId = event.target.id;
+    domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, roomsOnDashboard, backToResults);
+  };
+};
+
+function hideIndividualRoom() {
+  domUpdates.hide(indRoom);
+  domUpdates.show(gridContainer);
+  domUpdates.hide(backToResults);
+};
+
+function bookRoom() {
+  if (event.target.id === 'bookNow') {
+    let newDate = checkinDate.value.replaceAll('-', '/')
+    console.log('id', customer.id);
+    console.log('date', newDate);
+    console.log('number', event.target.name);
+     let newBooking = {
+       userID: customer.id,
+       date: newDate,
+       roomNumber: parseInt(event.target.name)
+     }
+     bookUserStay(newBooking);
   };
 };
