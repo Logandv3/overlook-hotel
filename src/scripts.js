@@ -133,8 +133,7 @@ if (!checkinDate.value || !checkoutDate.value) {
       let parsedCheckinDate = checkinDate.value.replaceAll('-', '');
       sameDate;
 
-
-      if (booking.roomNumber === room.number && parsedCheckinDate === parsedBookingDate) {
+      if (booking.roomNumber === room.number && parsedCheckinDate === parsedBookingDate && !sameDate.includes(room.number)) {
         sameDate.push(room.number);
 
       } else if (parsedCheckinDate !== parsedBookingDate && booking.roomNumber === room.number && !arr.includes(room)) {
@@ -144,14 +143,14 @@ if (!checkinDate.value || !checkoutDate.value) {
     return arr;
   }, []);
 
-  availableRooms.forEach((room) => {
-    sameDate.forEach((date) => {
-      if (room.number === date) {
-        availableRooms.splice(room, 1)
-      };
-    });
-  });
 
+  let onlyAvailable = [];
+  availableRooms.forEach((room) => {
+    if (sameDate.includes(room.number)) {
+      // onlyAvailable.push(availableRooms.indexOf(room))
+      availableRooms.splice(availableRooms.indexOf(room), 1)
+    };
+  });
 
   if (roomType.value !== 'all-room-types') {
     let filteredByType = availableRooms.filter((room) => room.roomType === roomType.value);

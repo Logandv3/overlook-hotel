@@ -9,7 +9,7 @@ let domUpdates = {
 
     customer.bookedStays.forEach((stay) => {
       gridContainer.innerHTML += `
-        <section class="grid-item" id="${stay.id}">
+        <section class="grid-item" tabindex="0" id="${stay.id}">
           <p>${stay.date}</p>
           <p>Room: ${stay.roomNumber}</p>
         </section>
@@ -39,7 +39,7 @@ let domUpdates = {
 
     roomsToDisplay.forEach((room) => {
       gridContainer.innerHTML += `
-      <section class="grid-item" id="${room.number}">
+      <section class="grid-item" tabindex="0" id="${room.number}">
         <p>Room Number: ${room.number}</p>
         <p>Room Type: ${room.roomType}</p>
         <p>Has bidet: ${room.bidet}</p>
