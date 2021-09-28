@@ -7,7 +7,7 @@
     <title>Overlook Hotel</title>
   </head>
   <body>
-    <div class="user-info hidden">
+    <div class="user-info hidden" id="userInfoContainer">
       <h3 id="userWelcome">Welcome User</h3>
       <h3 id="userTotalSpent">Total Spent: 0</h3>
     </div>
@@ -17,12 +17,14 @@
     <main>
       <div class="login-container" id="loginContainer">
         <h2>Please Enter Login Information</h2>
-        <form class="login-form" action="index.html" method="post">
+        <form class="login-form" action="" method="">
           <div class="login-input-fields">
             <input class="login-info" type="text" name="username" value="" placeholder="Enter Username" id="username">
             <input class="login-info" type="password" name="password" value="" placeholder="Enter Password" id="password">
           </div>
           <input class="login-button" type="submit" name="login-button" value="Login" id="loginBtn">
+          <p class="login-error hidden" id="loginError">Please Enter a Username and Password</p>
+          <p class="login-error2 hidden" id="loginError2">These Credentials Do Not Match Our Records</p>
         </form>
       </div>
       <nav class="navigation hidden" id="navigation">
