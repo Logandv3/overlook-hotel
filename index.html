@@ -7,7 +7,7 @@
     <title>Overlook Hotel</title>
   </head>
   <body>
-    <div class="user-info hidden" id="userInfoContainer">
+    <div class="user-info " id="userInfoContainer">
       <h3 id="userWelcome">Welcome User</h3>
       <h3 id="userTotalSpent">Total Spent: 0</h3>
     </div>
@@ -15,7 +15,7 @@
     <h1>Overlook Hotel</h1>
     </header>
     <main>
-      <div class="login-container" id="loginContainer">
+      <!-- <div class="login-container" id="loginContainer">
         <h2>Please Enter Login Information</h2>
         <form class="login-form" action="" method="">
           <div class="login-input-fields">
@@ -26,8 +26,8 @@
           <p class="login-error hidden" id="loginError">Please Enter a Username and Password</p>
           <p class="login-error2 hidden" id="loginError2">These Credentials Do Not Match Our Records</p>
         </form>
-      </div>
-      <nav class="navigation hidden" id="navigation">
+      </div> -->
+      <nav class="navigation " id="navigation">
         <div class="all-search-options">
           <p class="error-msg-date hidden" id="dateError">Please Select a Check-in & Check-out Date</p>
             <div class="date-entry">
@@ -47,14 +47,20 @@
               </div>
             </form>
         </div>
-          <button class="search-option" type="submit" name="submit-search" id="searchRoomsBtn">Search Available Rooms</button>
+          <div class="search-option">
+            <button class="search-option" type="submit" name="submit-search" id="searchRoomsBtn">Search Available Rooms</button>
+          </div>
       </div>
       </nav>
-      <h2 class="upcoming-stays hidden" id="roomDisplayHeading">Upcoming Stays</h2>
-      <article class="room-display-area hidden" id="roomDisplayArea">
+      <div class="room-disp-heading">
+        <h2 class="upcoming-stays " id="roomDisplayHeading">Upcoming Stays</h2>
+        <div class="room-navigation-buttons">
+          <button class="room-nav-btn " type="button" name="back-to-results" id="backToResults">Back to Results</button>
+          <button class="room-nav-btn " type="button" name="upcoming-stays-button" id="upcomingStaysBtn">My Upcoming Stays</button>
+        </div>
+      </div>
+      <article class="room-display-area " id="roomDisplayArea">
         <h2 class="no-results-msg hidden" id="noResultsMsg">Sorry there are no available rooms that match the search criteria</h2>
-        <button class="back-to-results hidden" type="button" name="back-to-results" id="backToResults">Back to Results</button>
-        <button class="upcoming-stays hidden" type="button" name="upcoming-stays-button" id="upcomingStaysBtn">My Upcoming Stays</button>
         <div class="grid-container" id="gridContainer">
           <section class="grid-item" id="indRoomTest">
           </section>
