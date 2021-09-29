@@ -6,12 +6,15 @@ describe('Customer', () => {
   let customerInfo;
   let customerBookings;
   let roomInfo;
+
   beforeEach(() => {
     customerInfo = {
     "id": 13,
     "name": "Christina Kulas"
     };
-    customerBookings = [
+
+    customerBookings = {
+      bookings: [
     {
       "id": "5fwrgu4i7k55hl6xe",
       "userID": 7,
@@ -60,8 +63,9 @@ describe('Customer', () => {
     "date": "2020/02/05",
     "roomNumber": 13,
     "roomServiceCharges": []
-  }];
-  roomInfo = [
+  }]};
+  roomInfo = {
+  rooms: [
     {
     "number": 1,
     "roomType": "residential suite",
@@ -182,7 +186,7 @@ describe('Customer', () => {
   "numBeds": 1,
   "costPerNight": 343.95
 }
-  ];
+]};
 
     customer = new Customer(customerInfo, customerBookings, roomInfo);
   });
