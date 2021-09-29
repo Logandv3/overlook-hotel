@@ -39,9 +39,7 @@ let separatedData;
 let roomsOnDashboard;
 let customer;
 
-// window.addEventListener('load', function() {
-//   gatherData(50, 1)});
-// navigation.addEventListener('dblclick', hideView)
+
 searchRoomsBtn.addEventListener('click', filterAvailableRooms);
 gridContainer.addEventListener('click', findRoom);
 backToResults.addEventListener('click', hideView);
@@ -188,6 +186,7 @@ function hideView(event) {
   domUpdates.hide(indRoom);
   domUpdates.hide(backToResults);
   domUpdates.hide(loginContainer);
+  domUpdates.hide(upcomingStaysBtn);
   domUpdates.show(gridContainer);
   domUpdates.show(userInfoContainer);
   domUpdates.show(navigation);
