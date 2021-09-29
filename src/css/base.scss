@@ -3,7 +3,6 @@
 
 * {
   background-color: black;
-  border: 2px solid white;
   color: white;
 }
 
@@ -75,7 +74,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   height: 8%;
-  border-color: aqua;
+  border: solid thin aqua;
 }
 
 .upcoming-stays {
@@ -89,9 +88,9 @@ h1 {
   width: 75%;
 }
 
-.room-nav-btn {
-  height:40%;
-}
+// .room-nav-btn {
+//   height:40%;
+// }
 
 header {
   height: 20%;
@@ -106,12 +105,13 @@ nav {
 .all-search-options {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .search-option {
   display: flex;
-  align-items: flex-end;
-  margin: 5px 20px 5px 20px;
+  align-items: center;
+  margin: 5px 25px 5px 25px;
 }
 
 .room-type-dropdown {
@@ -122,6 +122,8 @@ nav {
 .room-display-area {
   display: flex;
   justify-content: space-evenly;
+  margin-top: 1em;
+  height: 100%;
 }
 
 .grid-container {
@@ -134,11 +136,17 @@ nav {
 
 .grid-item {
   height: 100%;
-  border-color: white;
-  border-width: 2px;
+  border: 2px solid white;
 }
 
-.room-info-container {
+.individual-room {
+  border: 2px solid white;
+  height: 30%;
+  width: 20%;
+}
+
+.room-info-container,
+.ind-room-info {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -153,6 +161,7 @@ button {
   border-radius: .75em;
   background-color: transparent;
   border-color: white;
+  height: 40%;
 }
 
 button:hover {

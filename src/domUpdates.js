@@ -65,7 +65,7 @@ let domUpdates = {
       if (room.number === parseInt(roomId)) {
         indRoom.innerHTML += `
         <h3>${room.roomType} ${room.number}</h3>
-        <div>
+        <div class="ind-room-info">
           <p>Has bidet: ${room.bidet}</p>
           <p>Bed Size: ${room.bedSize}</p>
           <p>Number of Beds: ${room.numBeds}</p>
