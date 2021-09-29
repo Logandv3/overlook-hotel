@@ -1,4 +1,10 @@
 $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-;
 
-$item-border: border: 2px solid white;
+$item-border: 2px solid white;
+
+$button-hover-color: white;
+$button-hover-text: black;
+
+$button-focus-border: #00FFFF;
+$button-focus-background: transparent;
+$button-focus-text: white;

@@ -20,27 +20,21 @@ main {
 }
 
 .login-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include centered-column();
+  border: $item-border;
   height:80%;
   width: 100%;
 }
 
 .login-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 80%;
-  width: 80%;
+  @include even-space-column();
+  border: $item-border;
+  height: 60%;
+  width: 60%;
 }
 
 .login-input-fields {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include centered-column();
   width: 40%;
 }
 
@@ -49,10 +43,11 @@ main {
   width: 60%;
 }
 
-// .login-button {
-//   width: 30%;
-//   height: 10%;
-// }
+.login-btn-container {
+  @include centered-column();
+  height: 25%;
+  width: 33%;
+}
 
 .user-info {
   display: flex;
@@ -133,11 +128,11 @@ h1 {
 
 .grid-item {
   height: 100%;
-  border: 2px solid white;
+  border: $item-border;
 }
 
 .individual-room {
-  border: 2px solid white;
+  border: $item-border;
   height: 30%;
   width: 20%;
 }
@@ -154,22 +149,35 @@ h1 {
   justify-content: space-between;
 }
 
+.login-button {
+  @include button-style;
+  width: 80%;
+}
+
+.login-button:hover {
+  background-color: $button-hover-color;
+  color: $button-hover-text;
+}
+
+.login-button:focus {
+  border-color: $button-focus-border;
+  background-color: $button-focus-background;
+  color: $button-focus-text;
+}
+
 button {
-  border-radius: .75em;
-  background-color: transparent;
-  border-color: white;
-  height: 40%;
+  @include button-style;
 }
 
 button:hover {
-  background-color: white;
-  color: black;
+  background-color: $button-hover-color;
+  color: $button-hover-text;
 }
 
 button:focus {
-  border-color: #00FFFF;
-  background-color: transparent;
-  color: white;
+  border-color: $button-focus-border;
+  background-color: $button-focus-background;
+  color: $button-focus-text;
 }
 
 input:hover,
