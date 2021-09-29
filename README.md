@@ -1,107 +1,81 @@
-Test
+# What's Cookin'? (Group Project)
 
-# Webpack Starter Kit
 
-## Clone This Repo
 
-That's right, _clone_ not fork. You will use this repo multiple times, but you can only fork a repository once. So here is what you need to do to clone the repo and still be able to push changes to your repo:
+## Project Repo
+https://github.com/Logandv3/overlook-hotel
 
-1. Clone down this repo. Since you don't want to name your project "webpack-starter-kit", you can use an optional argument when you run `git clone` (you replace the `[...]` with the terminal command arguments): `git clone [remote-address] [what you want to name the repo]`
-1. Remove the default remote: `git remote rm origin` (notice that `git remote -v` not gives you back nothing)
-1. Create a new repo on GitHub with the name of `[what you want to name the repo]` to be consistent with naming
-1. Copy the address that you would use to clone down this repo - something like `git@github.com:...`
-1. Add this remote to your cloned down repo: `git remote add origin [address you copied in the previous step]` - do not include the brackets
 
-Now try to commit something and push it up to your new repo. If everything is setup correctly, you should see the changes on GitHub.
+## Deployable link
+N/A
+
+
+## Technologies Used
+* Code: HTML, SCSS, JavaScript
+* TDD: Mocha, Chai
+* Compiler: Webpack
+* Accessibility: Lighthouse & Wave
+* Linter: eslint
+* Debugging: Chrome Dev Tools
+* Version Control/Management: Git/Github/Github Projects
+
 
 ## Setup
+- Fork this web app to your own Github account
+- Clone the repository to your local machine
+- `cd` into the file
+- run `npm install`.
+- Run `npm start` and visit `localhost:8080`
 
-After one person has gone through the steps of cloning down this repo and editing the remote, everyone should clone down the repo.
 
-Then install the library dependencies. Run:
+## Project Overview
+The goal of the project was to build a hotel management tool for hotel customers and staff to manage room bookings and calculate customer bills.
 
-```bash
-npm install
-```
 
-To verify that it is setup correctly, run `npm start` in your terminal. Go to `http://localhost:8080/` and you should see a page with some `h1` text, Turing logo image and a beautiful gradient background. If that's the case, you're good to go. Enter `control + c` in your terminal to stop the server at any time.
+## Learning Goals
+* Use OOP to drive the design of the application and the code
+* Work with an API to send and receive data
+* Solidify the code review process
+* Create a robust test suite that thoroughly tests all functionality of a client-side application
 
-## Where to Add Your Code
 
-### JavaScript
+## How to Use
 
-You have to be very intentional with where you add your feature code. This repo uses a tool called [webpack](https://webpack.js.org/) to combine many JavaScript files into one big file. Webpack enables you to have many, separate JavaScript files to keep your code organized and readable. Webpack expects all of your code files to be in a specific place, or else it doesn't know how to combine them all behind the scenes.
+- Upon loading the user will be shown a login page.  If the credentials match that of the API then the user will be directed to a dashboard showing their name, total money spent thus far and upcoming stays.
+- The user can search for future stay options by selecting a checkin and checkout date.  They can also filter those results further by selecting room types to search by. 
+- After searching for available rooms the user will be shown a list of rooms that match the criteria entered.  Each item includes the details about the room including cost, type, bed size, number of beds, room number and if a bidet is available in that room.
+- If the user is interested in a particular room they can click on the room to be taken to a view showing the details and giving an option to book that room for that date. If the user wishes to return to their search results or view their booked stays they can do so by clicking on the corresponding buttons.
+- Once the user books a stay the API will be updated and their total money spent, upcoming stays and what appears on the page will all be updated.
 
-**Create all of your feature code files in the `src` directory.**
 
-Since code is separated into multiple files, you need to use the `import` and `export` syntax to share code across file.
+![Customer Login](https://user-images.githubusercontent.com/81990507/135199418-2b36ab09-85a0-4014-b4ef-414d1d587187.png)
 
-Here is a video that walks through some information about [import and export](https://www.youtube.com/watch?v=_3oSWwapPKQ). There are a lot of resources out there about `import` and `export`, and resources will sometimes call them `ES6 modules`. It's something you will see in React and beyond.
 
-### HTML
+![Customer Dashboard](https://user-images.githubusercontent.com/81990507/135199599-93d043a4-cb6c-4631-9803-41d7902b43ed.png)
 
-Add the HTML you need in the `index.html` file in the `./dist` directory. There is some boilerplate HTML that exists from the start that you can modify.
+Search Recording.gif
 
-### CSS (SCSS/SASS)
+## Wins
+Most of project went smoothly and I felt like I wrote good code.  It wasn't until the end(short on time) where I started writing code that wasn't very good and started causing me issues.
 
-This project is setup to use SCSS/Sass files by default instead of your regular CSS files. Add your SCSS files in the `src/css` directory. There is a `base.scss` file already there, but you can change this file and add multiple SCSS files in this directory.
+Successfully using the Fetch API (GET & POST)
 
-This might sound weird, but you need to `import` your SCSS files in the JavaScript entry file (`index.js`) for the styles to be applied to your HTML. The example `base.scss` file has already been imported in the JavaScript entry file as an example.
 
-### Images
+## Challenges
+I think there was bit of asynchronous activity that was throwing me off a bit.  I definitely need to go back in a make sure the order of things is correct.   
 
-Add your image files in the `src/images` directory. Similar to CSS files, you need to `import` image files in the JavaScript entry file (`index.js`). Then go into the HTML and add an `img` element with the `src` attribute pointing to the `images` directory. There is an example in the `index.html` file for you to see.
+I didn't have as much time for this as I would have liked so I began to write sloppy code at the end when I didn't have as much time.  As a result I wasn't able to spend as much time setting up my SCSS as I wanted.
 
-## How to View Your Code in Action
 
-In the terminal, run:
+## Reflections
+There is a lot of organization anbd reusabilty I would would change about this.  I think it taught me a lot about the importance of coming up with a good plan before I start laying out code.
 
-```bash
-npm start
-```
 
-You will see a bunch of lines output to your terminal. One of those lines will be something like:
+## Future Plans
+I would like to make sure API and DOM are updating at the appropriate time.  Would like to make older stays show up in a different section and do something about how old the info in the API is compared to todays date and make it more relevant.  I would also like to get to a manager dashboard and functionality from their standpoint.
 
-```bash
-Project is running at http://localhost:8080/
-```
 
-Go to `http://localhost:8080/` in your browser to view your code running in the browser.
 
----
+## Contributors
+- [Logan Vincent](https://github.com/Logandv3)
 
-## Test Files Organization
-
-Similar to feature code, your test code needs to be put in a specific place for it to run successfully.
-
-**Put all of your test files in the `test` directory.** As a convention, all test filenames should end with `-test.js`. For instance: `box-test.js`.
-
-## Running Your Tests
-
-Run your test suite using the command:
-
-```bash
-npm test
-```
-
-The test results will output to the terminal.
-
----
-
-## Linting Your Code
-
-Run the command in your terminal `npm run lint` to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit - the linter is still running successfully.
-
-Your linter will look at the JavaScript files you have within the `src` directory and the `test` directory.
-
-## Webpack?
-
-If you look in the `package.json` file, you'll see one of the library dependencies called `webpack`. If you're interested in learning more about what Webpack is and how it works behind the scenes, take a look through the [Webpack configuration documentation](https://webpack.js.org/concepts/).
-
-## Deploying to GitHub Pages
-
-_If you are finished with the functionality and testing of your project_, then you can consider deploying your project to the web! This way anyone can play it without cloning down your repo.
-
-[GitHub Pages](https://pages.github.com/) is a great way to deploy your project to the web. Don't worry about this until your project is free of bugs and well tested!
-
-If you _are_ done, you can follow [this procedure](./gh-pages-procedure.md) to get your project live on GitHub Pages.
