@@ -23,6 +23,10 @@ class Hotel {
 
   filterByRoomType(type) {
     let availableTypes = this.roomAvailability.filter((room) => room.roomType === type);
+
+    if (!availableTypes.length) {
+      return `There are no ${type}'s available for the dates selected`
+    }
     return availableTypes;
   };
 };

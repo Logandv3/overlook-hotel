@@ -1331,6 +1331,424 @@ roomNumber: 3
         available: true
       }
     ]);
+  });
 
+  it('Should be able to filter available rooms by another type', () => {
+    let date = '20210929';
+
+    hotel.filterAvailableRooms(date);
+
+    expect(hotel.roomAvailability).to.deep.equal([
+       {
+        number: 1,
+        roomType: 'residential suite',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 358.4,
+        available: true
+      },
+       {
+        number: 4,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 429.44,
+        available: true
+      },
+       {
+        number: 5,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 340.17,
+        available: true
+      },
+       {
+        number: 6,
+        roomType: 'junior suite',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 397.02,
+        available: true
+      },
+       {
+        number: 7,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 231.46,
+        available: true
+      },
+       {
+        number: 8,
+        roomType: 'junior suite',
+        bidet: false,
+        bedSize: 'king',
+        numBeds: 1,
+        costPerNight: 261.26,
+        available: true
+      },
+       {
+        number: 9,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 200.39,
+        available: true
+      },
+       {
+        number: 11,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'twin',
+        numBeds: 2,
+        costPerNight: 207.24,
+        available: true
+      },
+       {
+        number: 12,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'twin',
+        numBeds: 2,
+        costPerNight: 172.09,
+        available: true
+      },
+       {
+        number: 13,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 423.92,
+        available: true
+      },
+       {
+        number: 14,
+        roomType: 'residential suite',
+        bidet: false,
+        bedSize: 'twin',
+        numBeds: 1,
+        costPerNight: 457.88,
+        available: true
+      },
+       {
+        number: 15,
+        roomType: 'residential suite',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 1,
+        costPerNight: 294.56,
+        available: true
+      },
+       {
+        number: 16,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 325.6,
+        available: true
+      },
+       {
+        number: 17,
+        roomType: 'junior suite',
+        bidet: false,
+        bedSize: 'twin',
+        numBeds: 2,
+        costPerNight: 328.15,
+        available: true
+      },
+       {
+        number: 18,
+        roomType: 'junior suite',
+        bidet: false,
+        bedSize: 'king',
+        numBeds: 2,
+        costPerNight: 496.41,
+        available: true
+      },
+       {
+        number: 19,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 374.67,
+        available: true
+      },
+       {
+        number: 20,
+        roomType: 'residential suite',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 343.95,
+        available: true
+      },
+       {
+        number: 21,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 429.32,
+        available: true
+      },
+       {
+        number: 22,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 350.31,
+        available: true
+      },
+       {
+        number: 23,
+        roomType: 'residential suite',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 176.36,
+        available: true
+      },
+       {
+        number: 24,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 327.24,
+        available: true
+      },
+       {
+        number: 25,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 305.85,
+        available: true
+      }
+    ]);
+
+    let type = 'suite';
+
+    expect(hotel.filterByRoomType(type)).to.deep.equal([
+       {
+        number: 24,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 327.24,
+        available: true
+      }
+    ]);
+  });
+
+  it('Should return a message if room type is not available for that date', () => {
+    hotel.roomAvailability = [
+       {
+        number: 1,
+        roomType: 'residential suite',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 358.4,
+        available: true
+      },
+       {
+        number: 4,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 429.44,
+        available: true
+      },
+       {
+        number: 5,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 340.17,
+        available: true
+      },
+       {
+        number: 6,
+        roomType: 'junior suite',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 397.02,
+        available: true
+      },
+       {
+        number: 7,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 231.46,
+        available: true
+      },
+       {
+        number: 8,
+        roomType: 'junior suite',
+        bidet: false,
+        bedSize: 'king',
+        numBeds: 1,
+        costPerNight: 261.26,
+        available: true
+      },
+       {
+        number: 9,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 200.39,
+        available: true
+      },
+       {
+        number: 11,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'twin',
+        numBeds: 2,
+        costPerNight: 207.24,
+        available: true
+      },
+       {
+        number: 12,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'twin',
+        numBeds: 2,
+        costPerNight: 172.09,
+        available: true
+      },
+       {
+        number: 13,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 423.92,
+        available: true
+      },
+       {
+        number: 14,
+        roomType: 'residential suite',
+        bidet: false,
+        bedSize: 'twin',
+        numBeds: 1,
+        costPerNight: 457.88,
+        available: true
+      },
+       {
+        number: 15,
+        roomType: 'residential suite',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 1,
+        costPerNight: 294.56,
+        available: true
+      },
+       {
+        number: 16,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 325.6,
+        available: true
+      },
+       {
+        number: 17,
+        roomType: 'junior suite',
+        bidet: false,
+        bedSize: 'twin',
+        numBeds: 2,
+        costPerNight: 328.15,
+        available: true
+      },
+       {
+        number: 18,
+        roomType: 'junior suite',
+        bidet: false,
+        bedSize: 'king',
+        numBeds: 2,
+        costPerNight: 496.41,
+        available: true
+      },
+       {
+        number: 19,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 374.67,
+        available: true
+      },
+       {
+        number: 20,
+        roomType: 'residential suite',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 343.95,
+        available: true
+      },
+       {
+        number: 21,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 429.32,
+        available: true
+      },
+       {
+        number: 22,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 350.31,
+        available: true
+      },
+       {
+        number: 23,
+        roomType: 'residential suite',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 176.36,
+        available: true
+      },
+       {
+        number: 25,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 305.85,
+        available: true
+      }
+    ];
+
+    let type = 'suite';
+
+    expect(hotel.filterByRoomType(type)).to.equal(`There are no suite's available for the dates selected`)
   });
 });
