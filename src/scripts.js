@@ -39,13 +39,15 @@ let separatedData;
 let roomsOnDashboard;
 let customer;
 
-
+window.addEventListener('load', function() {
+  gatherData(50, 1)});
+navigation.addEventListener('dblclick', hideView)
 searchRoomsBtn.addEventListener('click', filterAvailableRooms);
 gridContainer.addEventListener('click', findRoom);
 backToResults.addEventListener('click', hideView);
 indRoom.addEventListener('click', bookRoom);
 upcomingStaysBtn.addEventListener('click', hideView);
-loginBtn.addEventListener('click', checkLoginInfo);
+// loginBtn.addEventListener('click', checkLoginInfo);
 
 
 function getData(singleCustomer) {
@@ -169,8 +171,9 @@ if (!checkinDate.value || !checkoutDate.value) {
 };
 
 function findRoom(event) {
+  console.log(event.target)
   if (event.target.id !== 'gridContainer') {
-    let roomId = event.target.id;
+    let roomId = event.target.parentNode.id;
     domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, roomsOnDashboard, backToResults);
   };
 };
@@ -187,7 +190,7 @@ function hideView(event) {
 
   domUpdates.hide(indRoom);
   domUpdates.hide(backToResults);
-  domUpdates.hide(loginContainer);
+  // domUpdates.hide(loginContainer);
   domUpdates.show(gridContainer);
   domUpdates.show(userInfoContainer);
   domUpdates.show(navigation);

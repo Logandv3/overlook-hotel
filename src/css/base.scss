@@ -57,15 +57,50 @@ main {
 .user-info {
   display: flex;
   justify-content: space-between;
+  height: 5%;
+}
+
+.date-entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 h1 {
-  font-size: 50px;
+  height: 100%;
+  font-size: 7em;
+}
+
+.room-disp-heading {
+  display: flex;
+  justify-content: space-between;
+  height: 8%;
+  border-color: aqua;
+}
+
+.upcoming-stays {
+  font-size: 2em;
+}
+
+.room-navigation-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 75%;
+}
+
+.room-nav-btn {
+  height:40%;
+}
+
+header {
+  height: 20%;
 }
 
 nav {
   display: flex;
   justify-content: flex-end;
+  height: 10%;
 }
 
 .all-search-options {
@@ -74,6 +109,8 @@ nav {
 }
 
 .search-option {
+  display: flex;
+  align-items: flex-end;
   margin: 5px 20px 5px 20px;
 }
 
@@ -90,12 +127,49 @@ nav {
 .grid-container {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 1em;
+	grid-gap: 2em;
+  width: 75%;
+  margin-top: 1em;
 }
 
-// .grid-item {
-//
-// }
+.grid-item {
+  height: 100%;
+  border-color: white;
+  border-width: 2px;
+}
+
+.room-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.ind-card-head {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  border-radius: .75em;
+  background-color: transparent;
+  border-color: white;
+}
+
+button:hover {
+  background-color: white;
+  color: black;
+}
+
+button:focus {
+  border-color: #00FFFF;
+  background-color: transparent;
+  color: white;
+}
+
+input:hover,
+select:hover {
+  cursor: pointer;
+}
 
 .hidden {
   display: none;
