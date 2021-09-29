@@ -124,6 +124,7 @@ if (!checkinDate.value || !checkoutDate.value) {
 
   let allRoomInfo = separatedData[1];
   let allBookingInfo = separatedData[2];
+  console.log(allBookingInfo)
   let sameDate = [];
   let rooms = [];
 
