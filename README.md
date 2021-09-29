@@ -53,7 +53,8 @@ The goal of the project was to build a hotel management tool for hotel customers
 
 ![Customer Dashboard](https://user-images.githubusercontent.com/81990507/135199599-93d043a4-cb6c-4631-9803-41d7902b43ed.png)
 
-Search Recording.gif
+![Search Recording.gif.zip](https://github.com/Logandv3/overlook-hotel/files/7248727/Search.Recording.gif.zip)
+
 
 ## Wins
 Most of project went smoothly and I felt like I wrote good code.  It wasn't until the end(short on time) where I started writing code that wasn't very good and started causing me issues.
