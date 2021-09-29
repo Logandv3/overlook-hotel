@@ -1,0 +1,18 @@
+@mixin centered-column() {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@mixin even-space-column() {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+@mixin button-style() {
+  border-radius: .75em;
+  background-color: transparent;
+  border-color: white;
+  height: 40%;
+}

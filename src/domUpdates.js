@@ -9,8 +9,8 @@ let domUpdates = {
 
     customer.bookedStays.forEach((stay) => {
       gridContainer.innerHTML += `
-        <section class="grid-item" id="${stay.id}">
-          <p>${stay.date}</p>
+        <section class="grid-item" tabindex="0" id="${stay.id}">
+          <p>Date of Stay: ${stay.date}</p>
           <p>Room: ${stay.roomNumber}</p>
         </section>
       `;
@@ -39,13 +39,17 @@ let domUpdates = {
 
     roomsToDisplay.forEach((room) => {
       gridContainer.innerHTML += `
-      <section class="grid-item" id="${room.number}">
-        <p>Room Number: ${room.number}</p>
-        <p>Room Type: ${room.roomType}</p>
-        <p>Has bidet: ${room.bidet}</p>
-        <p>Bed Size: ${room.bedSize}</p>
-        <p>Number of Beds: ${room.numBeds}</p>
-        <p>Cost Per Night: ${room.costPerNight}</p>
+      <section class="grid-item" tabindex="0">
+        <div class="room-info-container" id="${room.number}">
+          <div class="ind-card-head" id="${room.number}">
+            <p>Room Number: ${room.number}</p>
+            <p>Room Type: ${room.roomType}</p>
+          </div>
+          <p>Has bidet: ${room.bidet}</p>
+          <p>Bed Size: ${room.bedSize}</p>
+          <p>Number of Beds: ${room.numBeds}</p>
+          <p>Cost Per Night: ${room.costPerNight}</p>
+        </div>
       </section>
       `;
     });
@@ -61,7 +65,7 @@ let domUpdates = {
       if (room.number === parseInt(roomId)) {
         indRoom.innerHTML += `
         <h3>${room.roomType} ${room.number}</h3>
-        <div>
+        <div class="ind-room-info">
           <p>Has bidet: ${room.bidet}</p>
           <p>Bed Size: ${room.bedSize}</p>
           <p>Number of Beds: ${room.numBeds}</p>

@@ -39,7 +39,9 @@ let separatedData;
 let roomsOnDashboard;
 let customer;
 
-
+// window.addEventListener('load', function() {
+//   gatherData(50, 1)});
+// navigation.addEventListener('dblclick', hideView)
 searchRoomsBtn.addEventListener('click', filterAvailableRooms);
 gridContainer.addEventListener('click', findRoom);
 backToResults.addEventListener('click', hideView);
@@ -124,45 +126,57 @@ if (!checkinDate.value || !checkoutDate.value) {
 
   let allRoomInfo = separatedData[1];
   let allBookingInfo = separatedData[2];
-  let roomNumbersAdded = [];
+  let sameDate = [];
+  let rooms = [];
 
   let availableRooms = allRoomInfo.rooms.reduce((arr, room) => {
     allBookingInfo.bookings.forEach((booking) => {
       let parsedBookingDate = booking.date.replaceAll('/', '');
       let parsedCheckinDate = checkinDate.value.replaceAll('-', '');
-      roomNumbersAdded;
-      if (!roomNumbersAdded.includes(room.number) && booking.roomNumber === room.number && parsedCheckinDate !== parsedBookingDate) {
+      sameDate;
+
+      if (booking.roomNumber === room.number && parsedCheckinDate === parsedBookingDate && !sameDate.includes(room.number)) {
+        sameDate.push(room.number);
+
+      } else if (parsedCheckinDate !== parsedBookingDate && booking.roomNumber === room.number && !arr.includes(room)) {
         arr.push(room);
-        roomNumbersAdded.push(room.number);
       };
     });
     return arr;
   }, []);
 
-  if (roomType.value !== 'All') {
+
+  let onlyAvailable = [];
+  availableRooms.forEach((room) => {
+    if (sameDate.includes(room.number)) {
+      availableRooms.splice(availableRooms.indexOf(room), 1)
+    };
+  });
+
+  if (roomType.value !== 'all-room-types') {
     let filteredByType = availableRooms.filter((room) => room.roomType === roomType.value);
-    if (!filteredByType.length) {
-      domUpdates.show(noResultsMsg);
-    }
+
+  if (!filteredByType.length) {
+    domUpdates.show(noResultsMsg);
+  }
     createRooms(filteredByType);
 
-  } else if (roomType.value === 'All') {
-    if (!availableRooms.length) {
+  } else if (roomType.value === 'All' && !availableRooms.length) {
       domUpdates.show(noResultsMsg);
-    }
+
+  } else {
     createRooms(availableRooms);
   };
 };
 
 function findRoom(event) {
   if (event.target.id !== 'gridContainer') {
-    let roomId = event.target.id;
+    let roomId = event.target.parentNode.id;
     domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, roomsOnDashboard, backToResults);
   };
 };
 
 function hideView(event) {
-  console.log(event.target.id)
   if (event.target.id === 'upcomingStaysBtn') {
     domUpdates.hide(backToResults);
     domUpdates.hide(indRoom);
