@@ -30,20 +30,19 @@ class Hotel {
     });
 
     if (roomType !== 'all-room-types') {
-      return this.filterByRoomType(roomType, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn);
+      return this.filterByRoomType(roomType, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError);
     };
-      domUpdates.populateFilteredRooms(this.roomAvailability, gridContainer, roomDisplayHeading, upcomingStaysBtn);
-      domUpdates.hide(dateError);
+      domUpdates.populateFilteredRooms(this.roomAvailability, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError);
   };
 
 
-  filterByRoomType(type, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn) {
+  filterByRoomType(type, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError) {
     let availableTypes = this.roomAvailability.filter((room) => room.roomType === type);
 
     if (!availableTypes.length) {
       return domUpdates.show(noResultsMsg);
     };
-    domUpdates.populateFilteredRooms(availableTypes,  gridContainer, roomDisplayHeading, upcomingStaysBtn);
+    domUpdates.populateFilteredRooms(availableTypes,  gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError);
   };
 };
 

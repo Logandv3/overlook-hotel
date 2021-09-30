@@ -177,7 +177,7 @@ function verifyUser(result, customerUsername, event) {
 
 // Navigate DOM
 function findRoom(event) {
-  if (event.target.id !== 'gridContainer') {
+  if (event.target.id !== 'gridContainer' && roomDisplayHeading.innerText === 'Available Rooms') {
     let roomId = event.target.parentNode.id;
     domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, hotel.allRooms, backToResults);
   };
