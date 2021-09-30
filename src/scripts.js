@@ -109,7 +109,7 @@ function organizeData(data, apiCustomerInfo) {
   };
 };
 
-
+// Create Objects/ Data Model
 function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
   customer = new Customer(customerInfo, bookingInfo, roomInfo);
 
@@ -139,51 +139,7 @@ function initializeData(customerInfo, roomInfo, bookingInfo) {
   domUpdates.populateRoomTypeDropDwn(roomInfo);
 };
 
-
-function findRoom(event) {
-  if (event.target.id !== 'gridContainer') {
-    let roomId = event.target.parentNode.id;
-    domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, hotel.allRooms, backToResults);
-  };
-};
-
-
-function hideView(event) {
-  if (event.target.id === 'upcomingStaysBtn') {
-    domUpdates.hide(backToResults);
-    domUpdates.hide(indRoom);
-    domUpdates.hide(upcomingStaysBtn);
-    domUpdates.show(gridContainer);
-    domUpdates.populateUpcomingStays(customer);
-  };
-
-  domUpdates.hide(indRoom);
-  domUpdates.hide(backToResults);
-  domUpdates.hide(loginContainer);
-  domUpdates.hide(upcomingStaysBtn);
-  domUpdates.show(gridContainer);
-  domUpdates.show(userInfoContainer);
-  domUpdates.show(navigation);
-  domUpdates.show(roomDisplayHeading);
-  domUpdates.show(roomDisplayArea);
-};
-
-
-function bookRoom(event) {
-  if (event.target.id === 'bookNow') {
-    let newDate = checkinDate.value.replaceAll('-', '/')
-    let parsedRoomNumber = parseInt(event.target.value);
-
-     let newBooking = {
-       userID: customer.id,
-       date: newDate,
-       roomNumber: parsedRoomNumber
-     }
-     bookUserStay(newBooking, event);
-  };
-};
-
-
+// Customer Login Verification
 function checkLoginInfo(event) {
   if (username.value && password.value) {
     event.preventDefault();
@@ -217,4 +173,48 @@ function verifyUser(result, customerUsername, event) {
   } else {
     domUpdates.show(loginError2);
   }
+};
+
+// Navigate DOM
+function findRoom(event) {
+  if (event.target.id !== 'gridContainer') {
+    let roomId = event.target.parentNode.id;
+    domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, hotel.allRooms, backToResults);
+  };
+};
+
+
+function hideView(event) {
+  if (event.target.id === 'upcomingStaysBtn') {
+    domUpdates.hide(backToResults);
+    domUpdates.hide(indRoom);
+    domUpdates.hide(upcomingStaysBtn);
+    domUpdates.show(gridContainer);
+    domUpdates.populateUpcomingStays(customer);
+  };
+
+  domUpdates.hide(indRoom);
+  domUpdates.hide(backToResults);
+  domUpdates.hide(loginContainer);
+  domUpdates.hide(upcomingStaysBtn);
+  domUpdates.show(gridContainer);
+  domUpdates.show(userInfoContainer);
+  domUpdates.show(navigation);
+  domUpdates.show(roomDisplayHeading);
+  domUpdates.show(roomDisplayArea);
+};
+
+// Update Data Model/ API
+function bookRoom(event) {
+  if (event.target.id === 'bookNow') {
+    let newDate = checkinDate.value.replaceAll('-', '/')
+    let parsedRoomNumber = parseInt(event.target.value);
+
+     let newBooking = {
+       userID: customer.id,
+       date: newDate,
+       roomNumber: parsedRoomNumber
+     }
+     bookUserStay(newBooking, event);
+  };
 };
