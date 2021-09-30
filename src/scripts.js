@@ -1,10 +1,5 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
+// Import files
 import './css/base.scss';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import Customer from '../src/classes/Customer';
 import Rooms from '../src/classes/Rooms';
 import Bookings from '../src/classes/Bookings';
@@ -12,24 +7,30 @@ import Hotel from '../src/classes/Hotel';
 import { allCustomersPromise, singleCustomerPromise, roomPromise, bookingsPromise, bookUserStay } from './apiCalls';
 import domUpdates from './domUpdates';
 
+
+// Login Selectors
 const loginContainer = document.getElementById('loginContainer');
+const loginError = document.getElementById('loginError');
+const loginError2 = document.getElementById('loginError2');
 const username = document.getElementById('username');
 const password = document.getElementById('password');
 const loginBtn = document.getElementById('loginBtn');
-const navigation = document.getElementById('navigation');
-const loginError = document.getElementById('loginError');
-const loginError2 = document.getElementById('loginError2');
 
+
+// User & Navigation Selectors
 const userInfoContainer = document.getElementById('userInfoContainer');
 const userWelcome = document.getElementById('userWelcome');
 const userTotalSpent = document.getElementById('userTotalSpent');
+const navigation = document.getElementById('navigation');
 const dateError = document.getElementById('dateError');
 const checkinDate = document.getElementById('checkinDate');
 const checkoutDate = document.getElementById('checkoutDate');
+const searchRoomsBtn = document.getElementById('searchRoomsBtn');
 const roomTypeForm = document.getElementById('roomTypeForm');
 const roomType = document.getElementById('roomType');
-const searchRoomsBtn = document.getElementById('searchRoomsBtn');
 
+
+// Room & Stay Information Selectors
 const roomDisplayHeading = document.getElementById('roomDisplayHeading');
 const roomDisplayArea = document.getElementById('roomDisplayArea');
 const backToResults = document.getElementById('backToResults');
@@ -37,12 +38,15 @@ const upcomingStaysBtn = document.getElementById('upcomingStaysBtn');
 const noResultsMsg = document.getElementById('noResultsMsg');
 const indRoom = document.getElementById('indRoom');
 
+
+// Global variables/ Data Model
 let separatedData;
 let roomsOnDashboard;
 let customer;
 let hotel;
 
 
+// Event Listeners
 searchRoomsBtn.addEventListener('click', function() {
   hotel.filterAvailableRooms(checkinDate.value, roomType.value, gridContainer, roomDisplayHeading, upcomingStaysBtn, noResultsMsg)
 });
@@ -53,6 +57,7 @@ upcomingStaysBtn.addEventListener('click', hideView);
 loginBtn.addEventListener('click', checkLoginInfo);
 
 
+// Data Aquisition & Organization
 function getData(singleCustomer) {
   gatherData(singleCustomer);
 };
@@ -62,6 +67,7 @@ export const updateData = (event) => {
   gatherData(customer.id, updateSignal);
   hideView(event);
 };
+
 
 function gatherData(singleCustomer, updateSignal) {
   let apiRoomInfo = roomPromise()
@@ -85,6 +91,7 @@ function gatherData(singleCustomer, updateSignal) {
   };
 };
 
+
 function organizeData(data, apiCustomerInfo) {
   if (!apiCustomerInfo) {
     let customerInfo = data[0];
@@ -101,6 +108,7 @@ function organizeData(data, apiCustomerInfo) {
     initializeData(customerInfo, roomInfo, bookingInfo);
   };
 };
+
 
 function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
   customer = new Customer(customerInfo, bookingInfo, roomInfo);
@@ -120,6 +128,7 @@ function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
   hotel = new Hotel(instantiatedBookings, instantiatedRooms);
 };
 
+
 function initializeData(customerInfo, roomInfo, bookingInfo) {
   separatedData = [customerInfo, roomInfo, bookingInfo];
 
@@ -130,67 +139,6 @@ function initializeData(customerInfo, roomInfo, bookingInfo) {
   domUpdates.populateRoomTypeDropDwn(roomInfo);
 };
 
-// function createRooms(roomsToCreate) {
-//   let instantiatedRooms = roomsToCreate.map((room) => {
-//     let createdRoom = new Room(room);
-//     return createdRoom;
-//   });
-//
-//     domUpdates.populateFilteredRooms(instantiatedRooms, gridContainer, roomDisplayHeading, upcomingStaysBtn);
-//     roomsOnDashboard = instantiatedRooms;
-// };
-
-// function filterAvailableRooms() {
-// if (!checkinDate.value || !checkoutDate.value) {
-//     domUpdates.show(dateError);
-//     return
-//   };
-//
-//   let allRoomInfo = separatedData[1];
-//   let allBookingInfo = separatedData[2];
-//   console.log(allBookingInfo)
-//   let sameDate = [];
-//   let rooms = [];
-//
-//   let availableRooms = allRoomInfo.rooms.reduce((arr, room) => {
-//     allBookingInfo.bookings.forEach((booking) => {
-//       let parsedBookingDate = booking.date.replaceAll('/', '');
-//       let parsedCheckinDate = checkinDate.value.replaceAll('-', '');
-//       sameDate;
-//
-//       if (booking.roomNumber === room.number && parsedCheckinDate === parsedBookingDate && !sameDate.includes(room.number)) {
-//         sameDate.push(room.number);
-//
-//       } else if (parsedCheckinDate !== parsedBookingDate && booking.roomNumber === room.number && !arr.includes(room)) {
-//         arr.push(room);
-//       };
-//     });
-//     return arr;
-//   }, []);
-//
-//
-//   let onlyAvailable = [];
-//   availableRooms.forEach((room) => {
-//     if (sameDate.includes(room.number)) {
-//       availableRooms.splice(availableRooms.indexOf(room), 1)
-//     };
-//   });
-//
-//   if (roomType.value !== 'all-room-types') {
-//     let filteredByType = availableRooms.filter((room) => room.roomType === roomType.value);
-//
-//   if (!filteredByType.length) {
-//     domUpdates.show(noResultsMsg);
-//   }
-//     createRooms(filteredByType);
-//
-//   } else if (roomType.value === 'All' && !availableRooms.length) {
-//       domUpdates.show(noResultsMsg);
-//
-//   } else {
-//     createRooms(availableRooms);
-//   };
-// };
 
 function findRoom(event) {
   if (event.target.id !== 'gridContainer') {
@@ -198,6 +146,7 @@ function findRoom(event) {
     domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, hotel.allRooms, backToResults);
   };
 };
+
 
 function hideView(event) {
   if (event.target.id === 'upcomingStaysBtn') {
@@ -219,6 +168,7 @@ function hideView(event) {
   domUpdates.show(roomDisplayArea);
 };
 
+
 function bookRoom(event) {
   if (event.target.id === 'bookNow') {
     let newDate = checkinDate.value.replaceAll('-', '/')
@@ -233,6 +183,7 @@ function bookRoom(event) {
   };
 };
 
+
 function checkLoginInfo(event) {
   if (username.value && password.value) {
     event.preventDefault();
@@ -243,6 +194,7 @@ function checkLoginInfo(event) {
     domUpdates.show(loginError);
   };
 };
+
 
 async function collectUserInfo(customerUsername, customerPassword, event) {
   if (customerPassword !== 'overlook2021') {
@@ -255,6 +207,7 @@ async function collectUserInfo(customerUsername, customerPassword, event) {
       verifyUser(result, customerUsername, event);
   };
 };
+
 
 function verifyUser(result, customerUsername, event) {
   if (result.id === parseInt(customerUsername)) {
