@@ -9,7 +9,7 @@ class Hotel {
     this.roomAvailability = instantiatedRooms;
   };
 
-  filterAvailableRooms(checkinDate, roomType, gridContainer, roomDisplayHeading, upcomingStaysBtn) {
+  filterAvailableRooms(checkinDate, roomType, gridContainer, roomDisplayHeading, upcomingStaysBtn, noResultsMsg) {
     let date = checkinDate.replaceAll('-', '');
     this.roomAvailability = this.allRooms;
 
@@ -26,20 +26,20 @@ class Hotel {
     });
 
     if (roomType !== 'all-room-types') {
-      this.filterByRoomType(roomType);
+      this.filterByRoomType(roomType, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn);
 
     } else {
       domUpdates.populateFilteredRooms(this.roomAvailability, gridContainer, roomDisplayHeading, upcomingStaysBtn);
     };
   };
 
-  filterByRoomType(type) {
+  filterByRoomType(type, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn) {
     let availableTypes = this.roomAvailability.filter((room) => room.roomType === type);
-    console.log(availableTypes)
     if (!availableTypes.length) {
-      return `There are no ${type}'s available for the dates selected`
-    }
-    return availableTypes;
+      domUpdates.show(noResultsMsg);
+      // return `There are no ${type}'s available for the dates selected`
+    };
+    domUpdates.populateFilteredRooms(availableTypes,  gridContainer, roomDisplayHeading, upcomingStaysBtn);
   };
 };
 

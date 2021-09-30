@@ -44,7 +44,7 @@ let hotel;
 
 
 searchRoomsBtn.addEventListener('click', function() {
-  hotel.filterAvailableRooms(checkinDate.value, roomType.value, gridContainer, roomDisplayHeading, upcomingStaysBtn)
+  hotel.filterAvailableRooms(checkinDate.value, roomType.value, gridContainer, roomDisplayHeading, upcomingStaysBtn, noResultsMsg)
 });
 gridContainer.addEventListener('click', findRoom);
 backToResults.addEventListener('click', hideView);
