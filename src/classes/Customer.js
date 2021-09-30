@@ -11,13 +11,15 @@ class Customer {
   }
 
   getCustomerBookings(bookingInfo, currentDate) {
-    this.bookedStays = bookingInfo.filter((booking) => this.id === booking['userID']);
-    // this.upcomingStays = bookingInfo.bookings.filter((booking) => {
-    //   if (this.id === booking['userID'] && booking['date'] > currentDate) {
-    //     return booking;
-    //   };
-    // });
-    // console.log('upcomingStays',this.upcomingStays)
+    this.upcomingStays = bookingInfo.filter((booking) => {
+      if (this.id === booking.userID && parseInt(booking.date) >= currentDate) {
+        return booking;
+
+      } else if (this.id === booking.userID && parseInt(booking.date) < currentDate) {
+        this.pastStays.push(booking);
+        return
+      };
+    });
   };
 
   calculateTotalSpent(roomInfo) {

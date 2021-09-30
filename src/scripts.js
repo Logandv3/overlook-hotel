@@ -136,7 +136,7 @@ function getCurrentDate() {
   let month = String(date.getMonth()+1).padStart(2, "0");
 
   let completeDate = `${year}${month}${day}`;
-  return completeDate.toString();
+  return parseInt(completeDate);
 };
 
 function initializeData(customerInfo, roomInfo, bookingInfo) {
