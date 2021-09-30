@@ -1,20 +1,27 @@
 class Customer {
-  constructor(customerInfo, bookingInfo, roomInfo) {
+  constructor(customerInfo, bookingInfo, roomInfo, currentDate) {
     this.id = customerInfo.id;
     this.name = customerInfo.name;
     this.bookedStays = [];
-    this.retrieveBookings = this.filterCustomerBookings(bookingInfo);
+    this.pastStays = [];
+    this.upcomingStays = [];
+    this.retrieveBookings = this.getCustomerBookings(bookingInfo, currentDate);
     this.totalSpent = 0;
     this.retrieveTotalSpent = this.calculateTotalSpent(roomInfo);
-    // this.userName = `customer${this.id}`;
-    // this.password = 'overlook2021';
   }
-  filterCustomerBookings(bookingInfo) {
-    this.bookedStays = bookingInfo.bookings.filter((booking) => this.id === booking['userID']);
+
+  getCustomerBookings(bookingInfo, currentDate) {
+    this.bookedStays = bookingInfo.filter((booking) => this.id === booking['userID']);
+    // this.upcomingStays = bookingInfo.bookings.filter((booking) => {
+    //   if (this.id === booking['userID'] && booking['date'] > currentDate) {
+    //     return booking;
+    //   };
+    // });
+    // console.log('upcomingStays',this.upcomingStays)
   };
 
   calculateTotalSpent(roomInfo) {
-    this.totalSpent = roomInfo.rooms.reduce((num, room) => {
+    this.totalSpent = roomInfo.reduce((num, room) => {
       this.bookedStays.forEach((stay) => {
         if (room.number === stay.roomNumber) {
           num += room.costPerNight;
@@ -23,6 +30,10 @@ class Customer {
       return Math.round(num * 100)/100;
     }, 0);
   };
+
+  // filterUpcomingStays() {
+  //
+  // };
 };
 
 export default Customer;

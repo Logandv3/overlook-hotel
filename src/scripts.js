@@ -113,8 +113,6 @@ function organizeData(data, apiCustomerInfo) {
 function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
   let currentDate = getCurrentDate();
 
-  customer = new Customer(customerInfo, bookingInfo, roomInfo, currentDate);
-
   let instantiatedRooms = [];
   roomInfo.rooms.forEach((rm) => {
     let room = new Rooms(rm);
@@ -127,6 +125,7 @@ function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
     instantiatedBookings.push(booking)
   });
 
+  customer = new Customer(customerInfo, instantiatedBookings, instantiatedRooms, currentDate);
   hotel = new Hotel(instantiatedBookings, instantiatedRooms);
 };
 
