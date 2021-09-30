@@ -1,3 +1,8 @@
+import Bookings from '../src/classes/Bookings.js';
+import Rooms from '../src/classes/Rooms.js';
+import Hotel from '../src/classes/Hotel.js';
+import Customer from '../src/classes/Customer.js';
+
 let domUpdates = {
   populateUserInfo(customer) {
     userWelcome.innerText = `Welcome ${customer.name}!`;
@@ -56,6 +61,7 @@ let domUpdates = {
   },
 
   populateIndividualRoom(roomId, gridContainer, indRoom, roomsOnDashboard, backToResults) {
+    console.log(roomId);
     domUpdates.hide(gridContainer);
     domUpdates.show(indRoom);
     domUpdates.show(backToResults);

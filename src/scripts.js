@@ -5,8 +5,10 @@
 import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import Customer from './classes/Customer';
-import Room from './classes/Rooms';
+import Customer from '../src/classes/Customer';
+import Rooms from '../src/classes/Rooms';
+import Bookings from '../src/classes/Bookings';
+import Hotel from '../src/classes/Hotel';
 import { allCustomersPromise, singleCustomerPromise, roomPromise, bookingsPromise, bookUserStay } from './apiCalls';
 import domUpdates from './domUpdates';
 
@@ -38,9 +40,12 @@ const indRoom = document.getElementById('indRoom');
 let separatedData;
 let roomsOnDashboard;
 let customer;
+let hotel;
 
 
-searchRoomsBtn.addEventListener('click', filterAvailableRooms);
+searchRoomsBtn.addEventListener('click', function() {
+  hotel.filterAvailableRooms(checkinDate.value, roomType.value, gridContainer, roomDisplayHeading, upcomingStaysBtn)
+});
 gridContainer.addEventListener('click', findRoom);
 backToResults.addEventListener('click', hideView);
 indRoom.addEventListener('click', bookRoom);
@@ -87,6 +92,7 @@ function organizeData(data, apiCustomerInfo) {
     let bookingInfo = data[2];
 
     initializeData(customerInfo, roomInfo, bookingInfo);
+
   } else if (apiCustomerInfo) {
     let customerInfo = apiCustomerInfo;
     let roomInfo = data[0];
@@ -96,77 +102,95 @@ function organizeData(data, apiCustomerInfo) {
   };
 };
 
+function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
+  customer = new Customer(customerInfo, bookingInfo, roomInfo);
+
+  let instantiatedRooms = [];
+  roomInfo.rooms.forEach((rm) => {
+    let room = new Rooms(rm);
+    instantiatedRooms.push(room)
+  });
+
+  let instantiatedBookings = [];
+  bookingInfo.bookings.forEach((bookedStay) => {
+    let booking = new Bookings(bookedStay);
+    instantiatedBookings.push(booking)
+  });
+
+  hotel = new Hotel(instantiatedBookings, instantiatedRooms);
+};
+
 function initializeData(customerInfo, roomInfo, bookingInfo) {
   separatedData = [customerInfo, roomInfo, bookingInfo];
 
-  customer = new Customer(customerInfo, bookingInfo, roomInfo);
+  instantiateClasses(customerInfo, roomInfo, bookingInfo);
 
   domUpdates.populateUserInfo(customer);
   domUpdates.populateUpcomingStays(customer);
   domUpdates.populateRoomTypeDropDwn(roomInfo);
 };
 
-function createRooms(roomsToCreate) {
-  let instantiatedRooms = roomsToCreate.map((room) => {
-    let createdRoom = new Room(room);
-    return createdRoom;
-  });
+// function createRooms(roomsToCreate) {
+//   let instantiatedRooms = roomsToCreate.map((room) => {
+//     let createdRoom = new Room(room);
+//     return createdRoom;
+//   });
+//
+//     domUpdates.populateFilteredRooms(instantiatedRooms, gridContainer, roomDisplayHeading, upcomingStaysBtn);
+//     roomsOnDashboard = instantiatedRooms;
+// };
 
-    domUpdates.populateFilteredRooms(instantiatedRooms, gridContainer, roomDisplayHeading, upcomingStaysBtn);
-    roomsOnDashboard = instantiatedRooms;
-};
-
-function filterAvailableRooms() {
-if (!checkinDate.value || !checkoutDate.value) {
-    domUpdates.show(dateError);
-    return
-  };
-
-  let allRoomInfo = separatedData[1];
-  let allBookingInfo = separatedData[2];
-  console.log(allBookingInfo)
-  let sameDate = [];
-  let rooms = [];
-
-  let availableRooms = allRoomInfo.rooms.reduce((arr, room) => {
-    allBookingInfo.bookings.forEach((booking) => {
-      let parsedBookingDate = booking.date.replaceAll('/', '');
-      let parsedCheckinDate = checkinDate.value.replaceAll('-', '');
-      sameDate;
-
-      if (booking.roomNumber === room.number && parsedCheckinDate === parsedBookingDate && !sameDate.includes(room.number)) {
-        sameDate.push(room.number);
-
-      } else if (parsedCheckinDate !== parsedBookingDate && booking.roomNumber === room.number && !arr.includes(room)) {
-        arr.push(room);
-      };
-    });
-    return arr;
-  }, []);
-
-
-  let onlyAvailable = [];
-  availableRooms.forEach((room) => {
-    if (sameDate.includes(room.number)) {
-      availableRooms.splice(availableRooms.indexOf(room), 1)
-    };
-  });
-
-  if (roomType.value !== 'all-room-types') {
-    let filteredByType = availableRooms.filter((room) => room.roomType === roomType.value);
-
-  if (!filteredByType.length) {
-    domUpdates.show(noResultsMsg);
-  }
-    createRooms(filteredByType);
-
-  } else if (roomType.value === 'All' && !availableRooms.length) {
-      domUpdates.show(noResultsMsg);
-
-  } else {
-    createRooms(availableRooms);
-  };
-};
+// function filterAvailableRooms() {
+// if (!checkinDate.value || !checkoutDate.value) {
+//     domUpdates.show(dateError);
+//     return
+//   };
+//
+//   let allRoomInfo = separatedData[1];
+//   let allBookingInfo = separatedData[2];
+//   console.log(allBookingInfo)
+//   let sameDate = [];
+//   let rooms = [];
+//
+//   let availableRooms = allRoomInfo.rooms.reduce((arr, room) => {
+//     allBookingInfo.bookings.forEach((booking) => {
+//       let parsedBookingDate = booking.date.replaceAll('/', '');
+//       let parsedCheckinDate = checkinDate.value.replaceAll('-', '');
+//       sameDate;
+//
+//       if (booking.roomNumber === room.number && parsedCheckinDate === parsedBookingDate && !sameDate.includes(room.number)) {
+//         sameDate.push(room.number);
+//
+//       } else if (parsedCheckinDate !== parsedBookingDate && booking.roomNumber === room.number && !arr.includes(room)) {
+//         arr.push(room);
+//       };
+//     });
+//     return arr;
+//   }, []);
+//
+//
+//   let onlyAvailable = [];
+//   availableRooms.forEach((room) => {
+//     if (sameDate.includes(room.number)) {
+//       availableRooms.splice(availableRooms.indexOf(room), 1)
+//     };
+//   });
+//
+//   if (roomType.value !== 'all-room-types') {
+//     let filteredByType = availableRooms.filter((room) => room.roomType === roomType.value);
+//
+//   if (!filteredByType.length) {
+//     domUpdates.show(noResultsMsg);
+//   }
+//     createRooms(filteredByType);
+//
+//   } else if (roomType.value === 'All' && !availableRooms.length) {
+//       domUpdates.show(noResultsMsg);
+//
+//   } else {
+//     createRooms(availableRooms);
+//   };
+// };
 
 function findRoom(event) {
   if (event.target.id !== 'gridContainer') {

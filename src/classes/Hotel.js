@@ -1,3 +1,7 @@
+import domUpdates from '/src/domUpdates.js';
+// import Bookings from './src/classes/Bookings.js';
+// import Rooms from './src/classes/Rooms.js';
+
 class Hotel {
   constructor(instantiatedBookings, instantiatedRooms) {
     this.allBookings = instantiatedBookings;
@@ -5,7 +9,8 @@ class Hotel {
     this.roomAvailability = instantiatedRooms;
   };
 
-  filterAvailableRooms(date) {
+  filterAvailableRooms(checkinDate, roomType, gridContainer, roomDisplayHeading, upcomingStaysBtn) {
+    let date = checkinDate.replaceAll('-', '');
     this.roomAvailability = this.allRooms;
 
     this.allBookings.forEach((booking) => {
@@ -19,11 +24,18 @@ class Hotel {
         });
       };
     });
+
+    if (roomType !== 'all-room-types') {
+      this.filterByRoomType(roomType);
+
+    } else {
+      domUpdates.populateFilteredRooms(this.roomAvailability, gridContainer, roomDisplayHeading, upcomingStaysBtn);
+    };
   };
 
   filterByRoomType(type) {
     let availableTypes = this.roomAvailability.filter((room) => room.roomType === type);
-
+    console.log(availableTypes)
     if (!availableTypes.length) {
       return `There are no ${type}'s available for the dates selected`
     }

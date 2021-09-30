@@ -1,4 +1,6 @@
-class Room {
+// import Customer from './src/classes/Customer'
+
+class Rooms {
   constructor(roomInfo) {
     this.number = roomInfo.number;
     this.roomType = roomInfo.roomType;
@@ -10,4 +12,4 @@ class Room {
   };
 };
 
-export default Room;
+export default Rooms;
