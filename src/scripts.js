@@ -214,7 +214,7 @@ function bookRoom(event) {
        userID: customer.id,
        date: newDate,
        roomNumber: parsedRoomNumber
-     }
+     };
      bookUserStay(newBooking, event);
   };
 };
