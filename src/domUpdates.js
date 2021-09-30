@@ -60,14 +60,13 @@ let domUpdates = {
     });
   },
 
-  populateIndividualRoom(roomId, gridContainer, indRoom, roomsOnDashboard, backToResults) {
-    console.log(roomId);
+  populateIndividualRoom(roomId, gridContainer, indRoom, allRooms, backToResults) {
     domUpdates.hide(gridContainer);
     domUpdates.show(indRoom);
     domUpdates.show(backToResults);
     indRoom.innerHTML = ``;
 
-    roomsOnDashboard.forEach((room) => {
+    allRooms.forEach((room) => {
       if (room.number === parseInt(roomId)) {
         indRoom.innerHTML += `
         <h3>${room.roomType} ${room.number}</h3>

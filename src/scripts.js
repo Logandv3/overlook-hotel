@@ -195,7 +195,7 @@ function initializeData(customerInfo, roomInfo, bookingInfo) {
 function findRoom(event) {
   if (event.target.id !== 'gridContainer') {
     let roomId = event.target.parentNode.id;
-    domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, roomsOnDashboard, backToResults);
+    domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, hotel.allRooms, backToResults);
   };
 };
 
