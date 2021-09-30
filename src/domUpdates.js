@@ -13,7 +13,7 @@ let domUpdates = {
     gridContainer.innerHTML = ``;
     roomDisplayHeading.innerText = 'Upcoming Stays';
 
-    customer.bookedStays.forEach((stay) => {
+    customer.upcomingStays.forEach((stay) => {
       gridContainer.innerHTML += `
         <section class="grid-item" tabindex="0" name="upcoming-stay" id="${stay.id}">
           <p>Date of Stay: ${stay.date}</p>

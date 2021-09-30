@@ -2,7 +2,7 @@ class Customer {
   constructor(customerInfo, bookingInfo, roomInfo, currentDate) {
     this.id = customerInfo.id;
     this.name = customerInfo.name;
-    this.bookedStays = [];
+    this.bookedStays = bookingInfo;
     this.pastStays = [];
     this.upcomingStays = [];
     this.retrieveBookings = this.getCustomerBookings(bookingInfo, currentDate);
@@ -32,10 +32,6 @@ class Customer {
       return Math.round(num * 100)/100;
     }, 0);
   };
-
-  // filterUpcomingStays() {
-  //
-  // };
 };
 
 export default Customer;
