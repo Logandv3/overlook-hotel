@@ -1751,4 +1751,6 @@ roomNumber: 3
 
     expect(hotel.filterByRoomType(type)).to.equal(`There are no suite's available for the dates selected`)
   });
+
+  
 });

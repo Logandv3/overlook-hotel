@@ -18,7 +18,7 @@ class Customer {
       this.bookedStays.forEach((stay) => {
         if (room.number === stay.roomNumber) {
           num += room.costPerNight;
-        }
+        };
       });
       return Math.round(num * 100)/100;
     }, 0);
