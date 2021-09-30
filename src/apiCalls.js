@@ -1,4 +1,6 @@
 import { updateData } from './scripts.js';
+// import Hotel from './src/classes/Hotel.js';
+// import Bookings from './src/classes/Bookings.js';
 
 export const allCustomersPromise = () => {
   return fetch('http://localhost:3001/api/v1/customers')
@@ -28,5 +30,5 @@ export const bookUserStay = (newStay, event) => {
   })
   .then(response => response.json())
   .then(stay => updateData(event))
-  // .catch(err => console.log(`POST ERROR ${err}`))
+  .catch(err => console.log(`POST ERROR ${err}`))
 }

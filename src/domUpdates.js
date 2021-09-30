@@ -1,3 +1,8 @@
+import Bookings from '../src/classes/Bookings.js';
+import Rooms from '../src/classes/Rooms.js';
+import Hotel from '../src/classes/Hotel.js';
+import Customer from '../src/classes/Customer.js';
+
 let domUpdates = {
   populateUserInfo(customer) {
     userWelcome.innerText = `Welcome ${customer.name}!`;
@@ -6,10 +11,11 @@ let domUpdates = {
 
   populateUpcomingStays(customer) {
     gridContainer.innerHTML = ``;
+    roomDisplayHeading.innerText = 'Upcoming Stays';
 
     customer.bookedStays.forEach((stay) => {
       gridContainer.innerHTML += `
-        <section class="grid-item" tabindex="0" id="${stay.id}">
+        <section class="grid-item" tabindex="0" name="upcoming-stay" id="${stay.id}">
           <p>Date of Stay: ${stay.date}</p>
           <p>Room: ${stay.roomNumber}</p>
         </section>
@@ -32,7 +38,8 @@ let domUpdates = {
     });
   },
 
-  populateFilteredRooms(roomsToDisplay, gridContainer, roomDisplayHeading, upcomingStaysBtn) {
+  populateFilteredRooms(roomsToDisplay, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError) {
+    domUpdates.hide(dateError);
     domUpdates.show(upcomingStaysBtn);
     roomDisplayHeading.innerText = 'Available Rooms';
     gridContainer.innerHTML = '';
@@ -55,13 +62,13 @@ let domUpdates = {
     });
   },
 
-  populateIndividualRoom(roomId, gridContainer, indRoom, roomsOnDashboard, backToResults) {
+  populateIndividualRoom(roomId, gridContainer, indRoom, allRooms, backToResults) {
     domUpdates.hide(gridContainer);
     domUpdates.show(indRoom);
     domUpdates.show(backToResults);
     indRoom.innerHTML = ``;
 
-    roomsOnDashboard.forEach((room) => {
+    allRooms.forEach((room) => {
       if (room.number === parseInt(roomId)) {
         indRoom.innerHTML += `
         <h3>${room.roomType} ${room.number}</h3>

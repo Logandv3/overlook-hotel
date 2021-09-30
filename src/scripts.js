@@ -1,33 +1,36 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
+// Import files
 import './css/base.scss';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import Customer from './classes/Customer';
-import Room from './classes/Rooms';
+import Customer from '../src/classes/Customer';
+import Rooms from '../src/classes/Rooms';
+import Bookings from '../src/classes/Bookings';
+import Hotel from '../src/classes/Hotel';
 import { allCustomersPromise, singleCustomerPromise, roomPromise, bookingsPromise, bookUserStay } from './apiCalls';
 import domUpdates from './domUpdates';
 
+
+// Login Selectors
 const loginContainer = document.getElementById('loginContainer');
+const loginError = document.getElementById('loginError');
+const loginError2 = document.getElementById('loginError2');
 const username = document.getElementById('username');
 const password = document.getElementById('password');
 const loginBtn = document.getElementById('loginBtn');
-const navigation = document.getElementById('navigation');
-const loginError = document.getElementById('loginError');
-const loginError2 = document.getElementById('loginError2');
 
+
+// User & Navigation Selectors
 const userInfoContainer = document.getElementById('userInfoContainer');
 const userWelcome = document.getElementById('userWelcome');
 const userTotalSpent = document.getElementById('userTotalSpent');
+const navigation = document.getElementById('navigation');
 const dateError = document.getElementById('dateError');
 const checkinDate = document.getElementById('checkinDate');
 const checkoutDate = document.getElementById('checkoutDate');
+const searchRoomsBtn = document.getElementById('searchRoomsBtn');
 const roomTypeForm = document.getElementById('roomTypeForm');
 const roomType = document.getElementById('roomType');
-const searchRoomsBtn = document.getElementById('searchRoomsBtn');
 
+
+// Room & Stay Information Selectors
 const roomDisplayHeading = document.getElementById('roomDisplayHeading');
 const roomDisplayArea = document.getElementById('roomDisplayArea');
 const backToResults = document.getElementById('backToResults');
@@ -35,12 +38,18 @@ const upcomingStaysBtn = document.getElementById('upcomingStaysBtn');
 const noResultsMsg = document.getElementById('noResultsMsg');
 const indRoom = document.getElementById('indRoom');
 
+
+// Global variables/ Data Model
 let separatedData;
 let roomsOnDashboard;
 let customer;
+let hotel;
 
 
-searchRoomsBtn.addEventListener('click', filterAvailableRooms);
+// Event Listeners
+searchRoomsBtn.addEventListener('click', function() {
+  hotel.filterAvailableRooms(checkinDate, checkoutDate, roomType.value, gridContainer, roomDisplayHeading, upcomingStaysBtn, noResultsMsg, dateError)
+});
 gridContainer.addEventListener('click', findRoom);
 backToResults.addEventListener('click', hideView);
 indRoom.addEventListener('click', bookRoom);
@@ -48,6 +57,7 @@ upcomingStaysBtn.addEventListener('click', hideView);
 loginBtn.addEventListener('click', checkLoginInfo);
 
 
+// Data Aquisition & Organization
 function getData(singleCustomer) {
   gatherData(singleCustomer);
 };
@@ -57,6 +67,7 @@ export const updateData = (event) => {
   gatherData(customer.id, updateSignal);
   hideView(event);
 };
+
 
 function gatherData(singleCustomer, updateSignal) {
   let apiRoomInfo = roomPromise()
@@ -80,6 +91,7 @@ function gatherData(singleCustomer, updateSignal) {
   };
 };
 
+
 function organizeData(data, apiCustomerInfo) {
   if (!apiCustomerInfo) {
     let customerInfo = data[0];
@@ -87,6 +99,7 @@ function organizeData(data, apiCustomerInfo) {
     let bookingInfo = data[2];
 
     initializeData(customerInfo, roomInfo, bookingInfo);
+
   } else if (apiCustomerInfo) {
     let customerInfo = apiCustomerInfo;
     let roomInfo = data[0];
@@ -96,84 +109,80 @@ function organizeData(data, apiCustomerInfo) {
   };
 };
 
+// Create Objects/ Data Model
+function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
+  customer = new Customer(customerInfo, bookingInfo, roomInfo);
+
+  let instantiatedRooms = [];
+  roomInfo.rooms.forEach((rm) => {
+    let room = new Rooms(rm);
+    instantiatedRooms.push(room)
+  });
+
+  let instantiatedBookings = [];
+  bookingInfo.bookings.forEach((bookedStay) => {
+    let booking = new Bookings(bookedStay);
+    instantiatedBookings.push(booking)
+  });
+
+  hotel = new Hotel(instantiatedBookings, instantiatedRooms);
+};
+
+
 function initializeData(customerInfo, roomInfo, bookingInfo) {
   separatedData = [customerInfo, roomInfo, bookingInfo];
 
-  customer = new Customer(customerInfo, bookingInfo, roomInfo);
+  instantiateClasses(customerInfo, roomInfo, bookingInfo);
 
   domUpdates.populateUserInfo(customer);
   domUpdates.populateUpcomingStays(customer);
   domUpdates.populateRoomTypeDropDwn(roomInfo);
 };
 
-function createRooms(roomsToCreate) {
-  let instantiatedRooms = roomsToCreate.map((room) => {
-    let createdRoom = new Room(room);
-    return createdRoom;
-  });
+// Customer Login Verification
+function checkLoginInfo(event) {
+  if (username.value && password.value) {
+    event.preventDefault();
+    collectUserInfo(username.value, password.value, event);
 
-    domUpdates.populateFilteredRooms(instantiatedRooms, gridContainer, roomDisplayHeading, upcomingStaysBtn);
-    roomsOnDashboard = instantiatedRooms;
+  } else if (!username.value || !password.value) {
+    event.preventDefault();
+    domUpdates.show(loginError);
+  };
 };
 
-function filterAvailableRooms() {
-if (!checkinDate.value || !checkoutDate.value) {
-    domUpdates.show(dateError);
-    return
+
+async function collectUserInfo(customerUsername, customerPassword, event) {
+  if (customerPassword !== 'overlook2021') {
+    domUpdates.show(loginError2);
+  } else if (customerPassword === 'overlook2021') {
+      customerUsername = customerUsername.replace(/\D/g, '');
+      let custPromise = singleCustomerPromise(customerUsername);
+      let result = await custPromise;
+
+      verifyUser(result, customerUsername, event);
   };
-
-  let allRoomInfo = separatedData[1];
-  let allBookingInfo = separatedData[2];
-  console.log(allBookingInfo)
-  let sameDate = [];
-  let rooms = [];
-
-  let availableRooms = allRoomInfo.rooms.reduce((arr, room) => {
-    allBookingInfo.bookings.forEach((booking) => {
-      let parsedBookingDate = booking.date.replaceAll('/', '');
-      let parsedCheckinDate = checkinDate.value.replaceAll('-', '');
-      sameDate;
-
-      if (booking.roomNumber === room.number && parsedCheckinDate === parsedBookingDate && !sameDate.includes(room.number)) {
-        sameDate.push(room.number);
-
-      } else if (parsedCheckinDate !== parsedBookingDate && booking.roomNumber === room.number && !arr.includes(room)) {
-        arr.push(room);
-      };
-    });
-    return arr;
-  }, []);
+};
 
 
-  let onlyAvailable = [];
-  availableRooms.forEach((room) => {
-    if (sameDate.includes(room.number)) {
-      availableRooms.splice(availableRooms.indexOf(room), 1)
-    };
-  });
-
-  if (roomType.value !== 'all-room-types') {
-    let filteredByType = availableRooms.filter((room) => room.roomType === roomType.value);
-
-  if (!filteredByType.length) {
-    domUpdates.show(noResultsMsg);
-  }
-    createRooms(filteredByType);
-
-  } else if (roomType.value === 'All' && !availableRooms.length) {
-      domUpdates.show(noResultsMsg);
+function verifyUser(result, customerUsername, event) {
+  if (result.id === parseInt(customerUsername)) {
+    getData(result, event);
+    hideView(event);
 
   } else {
-    createRooms(availableRooms);
+    domUpdates.show(loginError2);
+  }
+};
+
+// Navigate DOM
+function findRoom(event) {
+  if (event.target.id !== 'gridContainer' && roomDisplayHeading.innerText === 'Available Rooms') {
+    let roomId = event.target.parentNode.id;
+    domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, hotel.allRooms, backToResults);
   };
 };
 
-function findRoom(event) {
-  if (event.target.id !== 'gridContainer') {
-    let roomId = event.target.parentNode.id;
-    domUpdates.populateIndividualRoom(roomId, gridContainer, indRoom, roomsOnDashboard, backToResults);
-  };
-};
 
 function hideView(event) {
   if (event.target.id === 'upcomingStaysBtn') {
@@ -195,6 +204,7 @@ function hideView(event) {
   domUpdates.show(roomDisplayArea);
 };
 
+// Update Data Model/ API
 function bookRoom(event) {
   if (event.target.id === 'bookNow') {
     let newDate = checkinDate.value.replaceAll('-', '/')
@@ -204,40 +214,7 @@ function bookRoom(event) {
        userID: customer.id,
        date: newDate,
        roomNumber: parsedRoomNumber
-     }
+     };
      bookUserStay(newBooking, event);
   };
-};
-
-function checkLoginInfo(event) {
-  if (username.value && password.value) {
-    event.preventDefault();
-    collectUserInfo(username.value, password.value, event);
-
-  } else if (!username.value || !password.value) {
-    event.preventDefault();
-    domUpdates.show(loginError);
-  };
-};
-
-async function collectUserInfo(customerUsername, customerPassword, event) {
-  if (customerPassword !== 'overlook2021') {
-    domUpdates.show(loginError2);
-  } else if (customerPassword === 'overlook2021') {
-      customerUsername = customerUsername.replace(/\D/g, '');
-      let custPromise = singleCustomerPromise(customerUsername);
-      let result = await custPromise;
-
-      verifyUser(result, customerUsername, event);
-  };
-};
-
-function verifyUser(result, customerUsername, event) {
-  if (result.id === parseInt(customerUsername)) {
-    getData(result, event);
-    hideView(event);
-
-  } else {
-    domUpdates.show(loginError2);
-  }
 };
