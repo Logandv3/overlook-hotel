@@ -1,5 +1,3 @@
-// import Customer from './src/classes/Customer'
-
 class Rooms {
   constructor(roomInfo) {
     this.number = roomInfo.number;
