@@ -1,6 +1,5 @@
 import domUpdates from '/src/domUpdates.js';
-// import Bookings from './src/classes/Bookings.js';
-// import Rooms from './src/classes/Rooms.js';
+
 
 class Hotel {
   constructor(instantiatedBookings, instantiatedRooms) {
@@ -9,7 +8,8 @@ class Hotel {
     this.roomAvailability = instantiatedRooms;
   };
 
-  filterAvailableRooms(checkinDate, checkoutDate, roomType, gridContainer, roomDisplayHeading, upcomingStaysBtn, noResultsMsg) {
+
+  filterAvailableRooms(checkinDate, checkoutDate, roomType, gridContainer, roomDisplayHeading, upcomingStaysBtn, noResultsMsg, dateError, pastStaysBtn) {
     if (!checkinDate.value || !checkoutDate.value) {
       return domUpdates.show(dateError);
     };
@@ -30,19 +30,19 @@ class Hotel {
     });
 
     if (roomType !== 'all-room-types') {
-      return this.filterByRoomType(roomType, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError);
+      return this.filterByRoomType(roomType, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError, pastStaysBtn);
     };
-      domUpdates.populateFilteredRooms(this.roomAvailability, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError);
+      domUpdates.populateFilteredRooms(this.roomAvailability, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError, pastStaysBtn);
   };
 
 
-  filterByRoomType(type, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError) {
+  filterByRoomType(type, noResultsMsg, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError, pastStaysBtn) {
     let availableTypes = this.roomAvailability.filter((room) => room.roomType === type);
 
     if (!availableTypes.length) {
       return domUpdates.show(noResultsMsg);
     };
-    domUpdates.populateFilteredRooms(availableTypes,  gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError);
+    domUpdates.populateFilteredRooms(availableTypes,  gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError, pastStaysBtn);
   };
 };
 

@@ -9,19 +9,38 @@ let domUpdates = {
     userTotalSpent.innerText = `Total Spent: ${customer.totalSpent}`;
   },
 
-  populateUpcomingStays(customer) {
-    gridContainer.innerHTML = ``;
-    roomDisplayHeading.innerText = 'Upcoming Stays';
 
-    customer.upcomingStays.forEach((stay) => {
+  determineTypeOfStay(customer, pastStaysBtn, upcomingStaysBtn, event) {
+    if (event === undefined || event.target.id !== 'pastStaysBtn') {
+      domUpdates.show(pastStaysBtn);
+      domUpdates.hide(upcomingStaysBtn);
+      gridContainer.innerHTML = ``;
+      roomDisplayHeading.innerText = 'Upcoming Stays';
+      let stayType = customer.upcomingStays;
+      domUpdates.populateUpcomingStays(stayType);
+
+    }else if (event.target.id === 'pastStaysBtn') {
+      domUpdates.hide(pastStaysBtn);
+      domUpdates.show(upcomingStaysBtn);
+      gridContainer.innerHTML = ``;
+      roomDisplayHeading.innerText = 'Past Stays';
+      let stayType = customer.pastStays;
+      domUpdates.populateUpcomingStays(stayType);
+    };
+  },
+
+
+  populateUpcomingStays(stayType) {
+    stayType.forEach((stay) => {
       gridContainer.innerHTML += `
         <section class="grid-item" tabindex="0" name="upcoming-stay" id="${stay.id}">
           <p>Date of Stay: ${stay.date}</p>
           <p>Room: ${stay.roomNumber}</p>
         </section>
       `;
-    })
+    });
   },
+
 
   populateRoomTypeDropDwn(roomInfo) {
     let filteredRoomTypes = roomInfo.rooms.reduce((arr, room) => {
@@ -38,8 +57,10 @@ let domUpdates = {
     });
   },
 
-  populateFilteredRooms(roomsToDisplay, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError) {
+
+  populateFilteredRooms(roomsToDisplay, gridContainer, roomDisplayHeading, upcomingStaysBtn, dateError, pastStaysBtn) {
     domUpdates.hide(dateError);
+    domUpdates.hide(pastStaysBtn);
     domUpdates.show(upcomingStaysBtn);
     roomDisplayHeading.innerText = 'Available Rooms';
     gridContainer.innerHTML = '';
@@ -61,6 +82,7 @@ let domUpdates = {
       `;
     });
   },
+
 
   populateIndividualRoom(roomId, gridContainer, indRoom, allRooms, backToResults) {
     domUpdates.hide(gridContainer);
@@ -84,9 +106,11 @@ let domUpdates = {
     });
   },
 
+
   show(element) {
     element.classList.remove('hidden');
   },
+
 
   hide(element) {
     element.classList.add('hidden');

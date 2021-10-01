@@ -35,6 +35,7 @@ const roomDisplayHeading = document.getElementById('roomDisplayHeading');
 const roomDisplayArea = document.getElementById('roomDisplayArea');
 const backToResults = document.getElementById('backToResults');
 const upcomingStaysBtn = document.getElementById('upcomingStaysBtn');
+const pastStaysBtn = document.getElementById('pastStaysBtn');
 const noResultsMsg = document.getElementById('noResultsMsg');
 const indRoom = document.getElementById('indRoom');
 
@@ -48,28 +49,33 @@ let hotel;
 
 // Event Listeners
 searchRoomsBtn.addEventListener('click', function() {
-  hotel.filterAvailableRooms(checkinDate, checkoutDate, roomType.value, gridContainer, roomDisplayHeading, upcomingStaysBtn, noResultsMsg, dateError)
+  hotel.filterAvailableRooms(checkinDate, checkoutDate, roomType.value, gridContainer, roomDisplayHeading, upcomingStaysBtn, noResultsMsg, dateError, pastStaysBtn)
 });
 gridContainer.addEventListener('click', findRoom);
 backToResults.addEventListener('click', hideView);
 indRoom.addEventListener('click', bookRoom);
 upcomingStaysBtn.addEventListener('click', hideView);
+pastStaysBtn.addEventListener('click', function() {
+  domUpdates.determineTypeOfStay(customer, pastStaysBtn, upcomingStaysBtn, event)
+});
 loginBtn.addEventListener('click', checkLoginInfo);
 
 
 // Data Aquisition & Organization
-function getData(singleCustomer) {
-  gatherData(singleCustomer);
+function getData(singleCustomer, event) {
+  let updateSignal = null;
+  gatherData(singleCustomer, updateSignal, event);
 };
+
 
 export const updateData = (event) => {
   let updateSignal = 1;
-  gatherData(customer.id, updateSignal);
+  gatherData(customer.id, updateSignal, event);
   hideView(event);
 };
 
 
-function gatherData(singleCustomer, updateSignal) {
+function gatherData(singleCustomer, updateSignal, event) {
   let apiRoomInfo = roomPromise()
   .then(data => data)
   .catch(error => console.log(`API room error: ${error.message}`))
@@ -77,10 +83,10 @@ function gatherData(singleCustomer, updateSignal) {
   .then(data => data)
   .catch(error => console.log(`API bookings error: ${error.message}`))
 
-  if (!updateSignal) {
+  if (updateSignal === null) {
     let apiCustomerInfo = singleCustomer;
     Promise.all([apiRoomInfo, apiBookingInfo])
-    .then(data => organizeData(data, apiCustomerInfo))
+    .then(data => organizeData(data, apiCustomerInfo, event))
 
   } else {
     let apiCustomerInfo = singleCustomerPromise(singleCustomer)
@@ -92,7 +98,7 @@ function gatherData(singleCustomer, updateSignal) {
 };
 
 
-function organizeData(data, apiCustomerInfo) {
+function organizeData(data, apiCustomerInfo, event) {
   if (!apiCustomerInfo) {
     let customerInfo = data[0];
     let roomInfo = data[1];
@@ -105,9 +111,10 @@ function organizeData(data, apiCustomerInfo) {
     let roomInfo = data[0];
     let bookingInfo = data[1];
 
-    initializeData(customerInfo, roomInfo, bookingInfo);
+    initializeData(customerInfo, roomInfo, bookingInfo, event);
   };
 };
+
 
 // Create Objects/ Data Model
 function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
@@ -119,6 +126,7 @@ function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
     instantiatedRooms.push(room)
   });
 
+
   let instantiatedBookings = [];
   bookingInfo.bookings.forEach((bookedStay) => {
     let booking = new Bookings(bookedStay);
@@ -129,25 +137,29 @@ function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
   hotel = new Hotel(instantiatedBookings, instantiatedRooms);
 };
 
+
 function getCurrentDate() {
   let date = new Date()
-  let day = date.getDate();
+  let day = String(date.getDate()+1).padStart(2, "0");
   let year = date.getFullYear();
   let month = String(date.getMonth()+1).padStart(2, "0");
+
 
   let completeDate = `${year}${month}${day}`;
   return parseInt(completeDate);
 };
 
-function initializeData(customerInfo, roomInfo, bookingInfo) {
+
+function initializeData(customerInfo, roomInfo, bookingInfo, event) {
   separatedData = [customerInfo, roomInfo, bookingInfo];
 
   instantiateClasses(customerInfo, roomInfo, bookingInfo);
 
   domUpdates.populateUserInfo(customer);
-  domUpdates.populateUpcomingStays(customer);
+  domUpdates.determineTypeOfStay(customer, pastStaysBtn, upcomingStaysBtn, event);
   domUpdates.populateRoomTypeDropDwn(roomInfo);
 };
+
 
 // Customer Login Verification
 function checkLoginInfo(event) {
@@ -185,6 +197,7 @@ function verifyUser(result, customerUsername, event) {
   }
 };
 
+
 // Navigate DOM
 function findRoom(event) {
   if (event.target.id !== 'gridContainer' && roomDisplayHeading.innerText === 'Available Rooms') {
@@ -199,20 +212,27 @@ function hideView(event) {
     domUpdates.hide(backToResults);
     domUpdates.hide(indRoom);
     domUpdates.hide(upcomingStaysBtn);
+    domUpdates.show(pastStaysBtn);
     domUpdates.show(gridContainer);
-    domUpdates.populateUpcomingStays(customer);
-  };
+    domUpdates.determineTypeOfStay(customer, pastStaysBtn, upcomingStaysBtn, event);
 
-  domUpdates.hide(indRoom);
-  domUpdates.hide(backToResults);
-  domUpdates.hide(loginContainer);
-  domUpdates.hide(upcomingStaysBtn);
-  domUpdates.show(gridContainer);
-  domUpdates.show(userInfoContainer);
-  domUpdates.show(navigation);
-  domUpdates.show(roomDisplayHeading);
-  domUpdates.show(roomDisplayArea);
+  } else if (event.target.id === 'loginBtn') {
+    domUpdates.hide(upcomingStaysBtn);
+    domUpdates.show(pastStaysBtn);
+    domUpdates.hide(loginContainer);
+    domUpdates.show(gridContainer);
+    domUpdates.show(userInfoContainer);
+    domUpdates.show(navigation);
+    domUpdates.show(roomDisplayHeading);
+    domUpdates.show(roomDisplayArea);
+
+  } else {
+    domUpdates.hide(indRoom);
+    domUpdates.hide(backToResults);
+    domUpdates.show(gridContainer);
+  };
 };
+
 
 // Update Data Model/ API
 function bookRoom(event) {
