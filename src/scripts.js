@@ -111,7 +111,7 @@ function organizeData(data, apiCustomerInfo) {
 
 // Create Objects/ Data Model
 function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
-  customer = new Customer(customerInfo, bookingInfo, roomInfo);
+  let currentDate = getCurrentDate();
 
   let instantiatedRooms = [];
   roomInfo.rooms.forEach((rm) => {
@@ -125,9 +125,19 @@ function instantiateClasses(customerInfo, roomInfo, bookingInfo) {
     instantiatedBookings.push(booking)
   });
 
+  customer = new Customer(customerInfo, instantiatedBookings, instantiatedRooms, currentDate);
   hotel = new Hotel(instantiatedBookings, instantiatedRooms);
 };
 
+function getCurrentDate() {
+  let date = new Date()
+  let day = date.getDate();
+  let year = date.getFullYear();
+  let month = String(date.getMonth()+1).padStart(2, "0");
+
+  let completeDate = `${year}${month}${day}`;
+  return parseInt(completeDate);
+};
 
 function initializeData(customerInfo, roomInfo, bookingInfo) {
   separatedData = [customerInfo, roomInfo, bookingInfo];
