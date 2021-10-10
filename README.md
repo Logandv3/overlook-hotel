@@ -1,4 +1,4 @@
-# What's Cookin'? (Group Project)
+# Overlook Hotel 
 
 
 
@@ -7,7 +7,7 @@ https://github.com/Logandv3/overlook-hotel
 
 
 ## Deployable link
-N/A
+https://logandv3.github.io/overlook-hotel/
 
 
 ## Technologies Used
