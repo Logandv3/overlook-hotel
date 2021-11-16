@@ -8,9 +8,9 @@ https://github.com/Logandv3/overlook-hotel
 
 ## Deployable link
 [Overlook Hotel](https://logandv3.github.io/overlook-hotel/)
-Login info: 
-username: customer33 (can choose 1-50)
-password: overlook2021 (for all users)
+- Login info: 
+  username: customer33 (can choose 1-50)
+  password: overlook2021 (for all users)
 
 
 
