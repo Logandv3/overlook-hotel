@@ -7,7 +7,7 @@ https://github.com/Logandv3/overlook-hotel
 
 
 ## Deployable link
-https://logandv3.github.io/overlook-hotel/
+[Overlook Hotel](https://logandv3.github.io/overlook-hotel/)
 
 
 ## Technologies Used
